@@ -63,10 +63,13 @@ function queryRailwaySignups(): Signup[] {
     // Build command using service NAME (not ID) to avoid Railway CLI auth bug
     const railwayCmd = `railway ssh --service ${serviceName} --environment ${environment}`;
     
-    const command = `${railwayCmd} -- node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();"`;
+    // Use single quotes for the node command to avoid escaping issues
+    const nodeCmd = `node -e 'const db = require("better-sqlite3")("./data/signups.db"); const all = db.prepare("SELECT * FROM signups ORDER BY created_at DESC").all(); console.log(JSON.stringify(all)); db.close();'`;
+    
+    const command = `${railwayCmd} -- ${nodeCmd}`;
     
     console.log('\n📡 Executing Railway SSH command...');
-    console.log(`   Command: ${railwayCmd} -- node -e "..."`);
+    console.log(`   Command: ${railwayCmd} -- node -e '...'`);
     console.log('');
     
     const output = execSync(command, { 
