@@ -42,14 +42,30 @@ function queryRailwaySignups(): Signup[] {
   try {
     console.log('\n📡 Step 1: Querying Railway for signups...');
     
-    const command = `railway run node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();"`;
+    const command = `railway ssh "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
     
     const output = execSync(command, { 
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'pipe']
     });
     
-    const signups = JSON.parse(output.trim());
+    // Parse the output - Railway may include extra text, so find the JSON array
+    const lines = output.trim().split('\n');
+    let jsonOutput = '';
+    
+    // Look for the JSON array in the output
+    for (const line of lines) {
+      if (line.trim().startsWith('[')) {
+        jsonOutput = line.trim();
+        break;
+      }
+    }
+    
+    if (!jsonOutput) {
+      throw new Error('Could not find JSON output from Railway');
+    }
+    
+    const signups = JSON.parse(jsonOutput);
     console.log(`✅ Fetched ${signups.length} total signups from Railway`);
     
     return signups;
