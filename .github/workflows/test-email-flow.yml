@@ -151,7 +151,7 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         continue-on-error: true
       
-      Temporarily commented out to avoid wasting emails during debugging
+      # Temporarily commented out to avoid wasting emails during debugging
       - name: Run full test flow
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
