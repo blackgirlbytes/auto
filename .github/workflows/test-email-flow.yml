@@ -174,10 +174,10 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo ""
           
-          # Try the simplest possible approach - inline Node.js code
-          echo "📡 Executing query with inline Node.js..."
-          OUTPUT=$(railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();" 2>&1)
+          # Use the EXACT same escaping that works locally
+          # Single quotes on outside, escaped double quotes inside
+          echo "📡 Executing query with proper escaping (like local command)..."
+          OUTPUT=$(railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\"" 2>&1)
           
           echo "📋 Full output (including stderr):"
           echo "$OUTPUT"
