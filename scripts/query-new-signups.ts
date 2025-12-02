@@ -42,20 +42,14 @@ function fetchSignupsFromRailway(): Signup[] {
       throw new Error('RAILWAY_TOKEN environment variable is required');
     }
     
-    // Build command using service NAME (not ID) to avoid Railway CLI auth bug
-    const railwayCmd = `railway ssh --service ${serviceName} --environment ${environment}`;
-    
-    // Read the query script from file and encode to base64 to avoid ALL shell escaping issues
-    const scriptPath = join(process.cwd(), 'scripts', 'railway-query-db.js');
-    const scriptContent = readFileSync(scriptPath, 'utf-8')
-      .replace(/^#!.*\n/, ''); // Remove shebang
-    const scriptBase64 = Buffer.from(scriptContent).toString('base64');
-    
-    const command = `${railwayCmd} -- bash -c "echo ${scriptBase64} | base64 -d | node"`;
-    
+    // Use the same escaping pattern that works locally
+    // Outer double quotes, escaped inner double quotes, single quotes for JS strings
     console.log('\n📡 Executing Railway SSH command...');
-    console.log(`   Command: ${railwayCmd} -- bash -c "echo <base64> | base64 -d | node"`);
+    console.log(`   Service: ${serviceName}`);
+    console.log(`   Environment: ${environment}`);
     console.log('');
+    
+    const command = `railway ssh --service ${serviceName} --environment ${environment} "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
     
     const output = execSync(command, { 
       encoding: 'utf-8',
