@@ -1,0 +1,107 @@
+name: Manual Email Send
+
+on:
+  workflow_dispatch:
+    inputs:
+      day:
+        description: 'Challenge day to send (1-25)'
+        required: true
+        type: number
+      test_mode:
+        description: 'Send to test email only'
+        required: false
+        type: boolean
+        default: false
+      test_email:
+        description: 'Test email address (required if test mode is enabled)'
+        required: false
+        type: string
+      sync_signups:
+        description: 'Sync new signups before sending'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  manual-send:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate inputs
+        run: |
+          if [ ${{ inputs.day }} -lt 1 ] || [ ${{ inputs.day }} -gt 25 ]; then
+            echo "❌ Error: Day must be between 1 and 25"
+            exit 1
+          fi
+          
+          if [ "${{ inputs.test_mode }}" == "true" ] && [ -z "${{ inputs.test_email }}" ]; then
+            echo "❌ Error: Test email is required when test mode is enabled"
+            exit 1
+          fi
+
+      - name: Query new signups
+        if: inputs.sync_signups == true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run query-signups
+
+      - name: Commit updated email list
+        if: inputs.sync_signups == true
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update email list with new signups (manual sync)'
+          file_pattern: 'data/email-list.json'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Send challenge email (Test Mode)
+        if: inputs.test_mode == true
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          FROM_NAME: ${{ secrets.FROM_NAME }}
+          REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
+          UNSUBSCRIBE_URL: ${{ secrets.UNSUBSCRIBE_URL }}
+          GITHUB_REPO_OWNER: ${{ secrets.GITHUB_REPO_OWNER }}
+          GITHUB_REPO_NAME: ${{ secrets.GITHUB_REPO_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "📧 Sending test email to: ${{ inputs.test_email }}"
+          npm run send-challenge -- --day=${{ inputs.day }} --email=${{ inputs.test_email }}
+
+      - name: Send challenge email (Production Mode)
+        if: inputs.test_mode == false
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          FROM_NAME: ${{ secrets.FROM_NAME }}
+          REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
+          UNSUBSCRIBE_URL: ${{ secrets.UNSUBSCRIBE_URL }}
+          GITHUB_REPO_OWNER: ${{ secrets.GITHUB_REPO_OWNER }}
+          GITHUB_REPO_NAME: ${{ secrets.GITHUB_REPO_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "📧 Sending to all subscribers"
+          npm run send-challenge -- --day=${{ inputs.day }}
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "✅ Email send completed successfully"
+          echo "Day: ${{ inputs.day }}"
+          echo "Test Mode: ${{ inputs.test_mode }}"
+          if [ "${{ inputs.test_mode }}" == "true" ]; then
+            echo "Test Email: ${{ inputs.test_email }}"
+          fi

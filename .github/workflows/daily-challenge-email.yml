@@ -1,0 +1,65 @@
+name: Daily Challenge Email
+
+on:
+  schedule:
+    # Run at 9:00 AM UTC every day during December 1-25
+    - cron: '0 9 * 12 *'
+  workflow_dispatch:
+    inputs:
+      day:
+        description: 'Challenge day (1-25)'
+        required: false
+        type: number
+
+jobs:
+  send-daily-email:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Query new signups
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run query-signups
+
+      - name: Commit updated email list
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update email list with new signups'
+          file_pattern: 'data/email-list.json'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Send challenge email
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          FROM_NAME: ${{ secrets.FROM_NAME }}
+          REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
+          UNSUBSCRIBE_URL: ${{ secrets.UNSUBSCRIBE_URL }}
+          GITHUB_REPO_OWNER: ${{ secrets.GITHUB_REPO_OWNER }}
+          GITHUB_REPO_NAME: ${{ secrets.GITHUB_REPO_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          if [ -n "${{ inputs.day }}" ]; then
+            npm run send-challenge -- --day=${{ inputs.day }}
+          else
+            npm run send-challenge
+          fi
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Daily email workflow failed"
+          echo "Check the logs for details"
