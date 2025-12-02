@@ -59,39 +59,29 @@ jobs:
       - name: Test Railway Connection
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
         run: |
           echo "🧪 Testing Railway SSH connection..."
+          echo "   Service: ${RAILWAY_SERVICE_NAME}"
+          echo "   Environment: ${RAILWAY_ENVIRONMENT}"
+          echo "   Token length: ${#RAILWAY_TOKEN} chars"
+          echo ""
           
-          # Export RAILWAY_TOKEN so Railway CLI can use it
-          export RAILWAY_TOKEN="${RAILWAY_TOKEN}"
+          # Railway CLI quirk: --project and --service flags ignore RAILWAY_TOKEN
+          # Use service name only (Railway infers project from token)
+          RAILWAY_CMD="railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT}"
           
-          # Build the railway ssh command with all available flags
-          RAILWAY_CMD="railway ssh"
+          echo "📡 Running: $RAILWAY_CMD -- echo 'Connection test successful'"
           
-          if [ -n "$RAILWAY_PROJECT_ID" ]; then
-            RAILWAY_CMD="$RAILWAY_CMD --project $RAILWAY_PROJECT_ID"
-          fi
-          
-          if [ -n "$RAILWAY_SERVICE_ID" ]; then
-            RAILWAY_CMD="$RAILWAY_CMD --service $RAILWAY_SERVICE_ID"
-          fi
-          
-          RAILWAY_CMD="$RAILWAY_CMD --environment ${RAILWAY_ENVIRONMENT:-production}"
-          
-          echo "📡 Running: $RAILWAY_CMD \"echo 'Connection test successful'\""
-          echo "   (Token length: ${#RAILWAY_TOKEN} chars)"
-          
-          if $RAILWAY_CMD "echo 'Connection test successful'"; then
+          if $RAILWAY_CMD -- echo 'Connection test successful'; then
             echo "✅ Railway connection successful!"
           else
             echo "❌ Railway connection failed!"
             echo ""
             echo "Troubleshooting steps:"
             echo "1. Verify RAILWAY_TOKEN is correct"
-            echo "2. Verify RAILWAY_PROJECT_ID matches your project"
+            echo "2. Verify service name: ${RAILWAY_SERVICE_NAME}"
             echo "3. Check that the service is running"
             echo "4. Ensure your token has access to this project"
             exit 1
@@ -103,8 +93,7 @@ jobs:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
         run: |
           echo "🧪 Running test flow for Day ${{ github.event.inputs.day }}"

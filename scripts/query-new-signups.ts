@@ -26,16 +26,15 @@ function fetchSignupsFromRailway(): Signup[] {
     console.log('📡 Fetching signups from Railway database...');
     console.log('━'.repeat(50));
     
-    // Build command with optional project/service/environment flags
-    const projectId = process.env.RAILWAY_PROJECT_ID;
-    const serviceId = process.env.RAILWAY_SERVICE_ID || process.env.RAILWAY_SERVICE;
+    // Railway CLI quirk: --project and --service ID flags ignore RAILWAY_TOKEN
+    // Use service NAME instead (Railway infers project from token)
+    const serviceName = process.env.RAILWAY_SERVICE_NAME || 'frosty-agent-forge';
     const environment = process.env.RAILWAY_ENVIRONMENT || 'production';
     const token = process.env.RAILWAY_TOKEN;
     
     console.log('🔍 Railway Configuration:');
     console.log(`   Token: ${token ? '✅ Set (' + token.length + ' chars)' : '❌ Not set'}`);
-    console.log(`   Project ID: ${projectId || '⚠️  Not set'}`);
-    console.log(`   Service ID: ${serviceId || '⚠️  Not set'}`);
+    console.log(`   Service Name: ${serviceName}`);
     console.log(`   Environment: ${environment}`);
     console.log('━'.repeat(50));
     
@@ -43,20 +42,13 @@ function fetchSignupsFromRailway(): Signup[] {
       throw new Error('RAILWAY_TOKEN environment variable is required');
     }
     
-    if (!projectId) {
-      console.warn('⚠️  WARNING: RAILWAY_PROJECT_ID not set. Railway CLI may fail to find your project.');
-      console.warn('   Set it with: export RAILWAY_PROJECT_ID=your_project_id');
-    }
+    // Build command using service NAME (not ID) to avoid Railway CLI auth bug
+    const railwayCmd = `railway ssh --service ${serviceName} --environment ${environment}`;
     
-    let railwayCmd = 'railway ssh';
-    if (projectId) railwayCmd += ` --project ${projectId}`;
-    if (serviceId) railwayCmd += ` --service ${serviceId}`;
-    railwayCmd += ` --environment ${environment}`;
-    
-    const command = `${railwayCmd} "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
+    const command = `${railwayCmd} -- node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();"`;
     
     console.log('\n📡 Executing Railway SSH command...');
-    console.log(`   Command: ${railwayCmd} "node -e ..."`);
+    console.log(`   Command: ${railwayCmd} -- node -e "..."`);
     console.log('');
     
     const output = execSync(command, { 

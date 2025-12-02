@@ -80,12 +80,10 @@ jobs:
       - name: Query new signups from Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
         run: |
           echo "📡 Querying Railway for new signups..."
-          export RAILWAY_TOKEN="${RAILWAY_TOKEN}"
           npx tsx scripts/query-new-signups.ts --commit
         continue-on-error: true
       
