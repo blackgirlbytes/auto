@@ -77,6 +77,26 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       
+      - name: Authenticate Railway CLI
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          echo "🔐 Authenticating with Railway..."
+          railway login --browserless
+        continue-on-error: true
+      
+      - name: Link Railway Project
+        env:
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          if [ -n "$RAILWAY_PROJECT_ID" ]; then
+            echo "🔗 Linking to Railway project..."
+            railway link $RAILWAY_PROJECT_ID
+          else
+            echo "⚠️  RAILWAY_PROJECT_ID not set, skipping project link"
+          fi
+        continue-on-error: true
+      
       - name: Query new signups from Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
