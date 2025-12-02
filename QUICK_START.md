@@ -1,166 +1,179 @@
-# 🚀 Quick Start - 15 Minutes to Live!
+# Quick Start - Get Railway IDs and Test
 
-## Step 1: Get Your Credentials (10 minutes)
+## Step 1: Get Your Railway IDs
 
-### SendGrid (2 minutes)
-1. Go to [SendGrid Dashboard](https://app.sendgrid.com/)
-2. Settings → API Keys → Create API Key
-3. Name: "Advent of AI"
-4. Permissions: "Mail Send" (Full Access)
-5. Copy the key (shown only once!)
+### Option A: Using the Script (Easiest)
 
-### Railway (5 minutes)
-1. Go to [Railway Dashboard](https://railway.app/)
-2. **Get Token:**
-   - Profile → Account Settings → Tokens
-   - Create Token → Name: "GitHub Actions"
-   - Copy the token
-3. **Get Project ID:**
-   - Go to your project
-   - Look at URL: `railway.app/project/YOUR_PROJECT_ID`
-   - Copy the ID part
+```bash
+cd /Users/rizel/Desktop/redesign-for-ridiculous/auto
 
-### Verify FROM_EMAIL (3 minutes)
-1. In SendGrid: Settings → Sender Authentication
-2. Verify your sender email (e.g., noreply@adventofai.dev)
-3. Or use: Single Sender Verification for quick setup
+# Set your Railway token
+export RAILWAY_TOKEN="your_railway_token_here"
 
----
-
-## Step 2: Add GitHub Secrets (5 minutes)
-
-Go to: `https://github.com/blackgirlbytes/auto/settings/secrets/actions`
-
-Click "New repository secret" for each:
-
-| Secret Name | Value | Example |
-|-------------|-------|---------|
-| `SENDGRID_API_KEY` | Your SendGrid API key | `SG.abc123...` |
-| `FROM_EMAIL` | Your verified sender email | `noreply@adventofai.dev` |
-| `RAILWAY_TOKEN` | Your Railway token | `abc123...` |
-| `RAILWAY_PROJECT_ID` | Your Railway project ID | `xxxxxxxx-xxxx-xxxx...` |
-
----
-
-## Step 3: Run Test (5 minutes)
-
-### Start the Test
-1. Go to: `https://github.com/blackgirlbytes/auto/actions`
-2. Click: **"Test Email Flow (Send to rizel@block.xyz only)"**
-3. Click: **"Run workflow"**
-4. Enter: `day=1`
-5. Click: **"Run workflow"**
-
-### Watch the Logs
-- Wait 2-3 minutes for workflow to complete
-- Check each step turns green ✅
-- Look for: "✅ Test email sent successfully!"
-
-### Check Your Email
-1. Open: rizel@block.xyz inbox
-2. Look for: "🧪 TEST - Day 1 Challenge - Advent of AI"
-3. Verify:
-   - ✅ Yellow test banner at top
-   - ✅ Beautiful gradient design
-   - ✅ Correct challenge content
-   - ✅ "View Full Challenge" button works
-   - ✅ Footer says "sent only to rizel@block.xyz"
-
----
-
-## ✅ Success Checklist
-
-- [ ] All 4 secrets added to GitHub
-- [ ] Test workflow completed successfully
-- [ ] Email received at rizel@block.xyz
-- [ ] Email looks beautiful
-- [ ] Challenge content is correct
-- [ ] No errors in workflow logs
-
----
-
-## 🎉 You're Live!
-
-Once the test passes, you have two options:
-
-### Option A: Manual Send to All Subscribers
-```
-1. Actions → "Send Daily Challenge Email Notifications"
-2. day=1, dry_run=false
-3. Monitor SendGrid dashboard
-4. Verify emails sent to all 86+ subscribers
+# Run the script
+./get-railway-ids.sh
 ```
 
-### Option B: Let It Run Automatically
+This will show you all your projects and their IDs. Look for:
+- **Project:** magnificent-cat → Copy the **Project ID**
+- **Service:** frosty-agent-forge → Copy the **Service ID**
+
+### Option B: From Railway Dashboard
+
+1. Go to https://railway.app
+2. Click on your **magnificent-cat** project
+3. **Project ID** is in the URL: `railway.app/project/PROJECT_ID_HERE`
+4. Click on **frosty-agent-forge** service
+5. Go to **Settings** → **Service ID** is shown there
+
+### Option C: From Railway CLI
+
+```bash
+cd /Users/rizel/Desktop/redesign-for-ridiculous/frosty-agent-forge
+
+# This shows project/service names but not always IDs
+railway status
+
+# To get IDs, you may need to check the Railway dashboard
 ```
-Do nothing! The system will automatically send emails at:
-- 12:30 PM ET on challenge days
-- Dec 1-5, 8-12, 15-19, 22-23
+
+## Step 2: Add Secrets to GitHub
+
+Go to: **https://github.com/blackgirlbytes/auto/settings/secrets/actions**
+
+Click **"New repository secret"** for each:
+
+### Required Secrets (5 total):
+
+1. **RAILWAY_TOKEN**
+   - Value: Your Railway account token from https://railway.app/account/tokens
+   
+2. **RAILWAY_PROJECT_ID**
+   - Value: The Project ID for "magnificent-cat" (from Step 1)
+   
+3. **RAILWAY_SERVICE_ID**
+   - Value: The Service ID for "frosty-agent-forge" (from Step 1)
+   
+4. **SENDGRID_API_KEY**
+   - Value: Your SendGrid API key
+   
+5. **FROM_EMAIL**
+   - Value: Your sender email (e.g., noreply@adventofai.dev)
+
+### Optional Secret:
+
+6. **RAILWAY_ENVIRONMENT** (optional, defaults to "production")
+   - Value: `production`
+
+## Step 3: Test Locally (Optional but Recommended)
+
+Before running the GitHub workflow, test locally:
+
+```bash
+cd /Users/rizel/Desktop/redesign-for-ridiculous/auto
+
+# Set all environment variables
+export RAILWAY_TOKEN="your_token"
+export RAILWAY_PROJECT_ID="your_project_id"
+export RAILWAY_SERVICE_ID="your_service_id"
+export RAILWAY_ENVIRONMENT="production"
+export SENDGRID_API_KEY="your_sendgrid_key"
+export FROM_EMAIL="your_from_email"
+
+# Test Railway connection
+railway ssh --project $RAILWAY_PROJECT_ID --service $RAILWAY_SERVICE_ID --environment production "echo 'Connection successful!'"
+
+# Test database query
+railway ssh --project $RAILWAY_PROJECT_ID --service $RAILWAY_SERVICE_ID --environment production "node -e \"const db = require('better-sqlite3')('./data/signups.db'); console.log('Signups:', db.prepare('SELECT COUNT(*) as count FROM signups').get()); db.close();\""
+
+# Run the full test
+npx tsx scripts/test-full-flow.ts --day=1
 ```
 
----
+## Step 4: Run GitHub Actions Test Workflow
 
-## 🐛 Troubleshooting
+1. Go to: **https://github.com/blackgirlbytes/auto/actions/workflows/test-email-flow.yml**
+2. Click **"Run workflow"** button (top right)
+3. Enter day: **1**
+4. Click **"Run workflow"**
 
-### Test Email Not Received
-- Check spam/junk folder
-- Wait 3-5 minutes (SendGrid can be slow)
-- Check SendGrid Activity Feed
-- Verify FROM_EMAIL is verified in SendGrid
+## Step 5: Check the Results
 
-### Railway Query Failed
-- Check RAILWAY_TOKEN is correct
-- Check RAILWAY_PROJECT_ID is correct
-- See RAILWAY_SETUP.md for detailed help
-- Note: Email sending still works without Railway!
+### In GitHub Actions:
 
-### Workflow Failed
-- Check all 4 secrets are added
-- Verify secret names are exact (case-sensitive)
-- Check workflow logs for specific error
-- See TEST_GUIDE.md for detailed troubleshooting
+1. **Debug Railway Configuration** step will show:
+   ```
+   RAILWAY_TOKEN: ✅ Set (42 chars)
+   RAILWAY_PROJECT_ID: abc123-def456-ghi789
+   RAILWAY_SERVICE_ID: xyz789-abc123-def456
+   RAILWAY_ENVIRONMENT: production
+   ```
 
----
+2. **Test Railway Connection** step will show:
+   ```
+   ✅ Railway connection successful!
+   ```
 
-## 📚 Need More Help?
+3. **Run full test flow** will:
+   - Query Railway for signups
+   - Update email list
+   - Send test email to rizel@block.xyz
 
-- **RAILWAY_SETUP.md** - Railway credentials guide
-- **TEST_GUIDE.md** - Comprehensive testing instructions
-- **WORKFLOWS.md** - Workflow documentation
-- **FINAL_SUMMARY.md** - Complete overview
+### In Your Email:
 
----
+Check **rizel@block.xyz** for the test email! 📬
 
-## 🎯 What Happens Next?
+## Troubleshooting
 
-After successful test:
+### If "Debug Railway Configuration" shows missing values:
+- ❌ Double-check you added all secrets to GitHub
+- ❌ Make sure secret names are EXACTLY as shown (case-sensitive)
 
-1. **New signups automatically added** - Railway query runs before each send
-2. **Emails sent on schedule** - 12:30 PM ET on challenge days
-3. **You get notified** - GitHub issue created if anything fails
-4. **Monitor SendGrid** - Track delivery, opens, clicks
+### If "Test Railway Connection" fails:
+- ❌ Verify the Project ID is correct (from magnificent-cat)
+- ❌ Verify the Service ID is correct (from frosty-agent-forge)
+- ❌ Check that frosty-agent-forge service is running in Railway
+- ❌ Verify your token has access to this project
 
----
+### If Railway query works but no email arrives:
+- ❌ Check SENDGRID_API_KEY is correct
+- ❌ Check FROM_EMAIL is a verified sender in SendGrid
+- ❌ Check spam folder
 
-## ⏱️ Time Breakdown
+## What Each Secret Does
 
-- **Get credentials**: 10 minutes
-- **Add secrets**: 5 minutes
-- **Run test**: 3 minutes
-- **Verify email**: 2 minutes
+| Secret | Purpose | Example |
+|--------|---------|---------|
+| `RAILWAY_TOKEN` | Authenticates with Railway | `railway_token_abc123...` |
+| `RAILWAY_PROJECT_ID` | Identifies "magnificent-cat" project | `abc123-def456-ghi789` |
+| `RAILWAY_SERVICE_ID` | Identifies "frosty-agent-forge" service | `xyz789-abc123-def456` |
+| `SENDGRID_API_KEY` | Sends emails via SendGrid | `SG.abc123...` |
+| `FROM_EMAIL` | Email sender address | `noreply@adventofai.dev` |
 
-**Total: ~20 minutes to fully operational! 🚀**
+## Success Checklist
 
----
+- [ ] Got Railway Project ID for "magnificent-cat"
+- [ ] Got Railway Service ID for "frosty-agent-forge"
+- [ ] Added all 5 required secrets to GitHub
+- [ ] Ran test workflow
+- [ ] "Debug Railway Configuration" shows all values ✅
+- [ ] "Test Railway Connection" passes ✅
+- [ ] Received test email at rizel@block.xyz ✅
 
-## 🔐 Security Notes
+## Next Steps After Success
 
-- Never commit secrets to the repository
-- Rotate tokens periodically
-- Use GitHub Secrets for all credentials
-- Test workflow only sends to rizel@block.xyz
-- Production workflow sends to all subscribers
+Once the test workflow succeeds:
 
----
+1. ✅ Verify email content and formatting
+2. ✅ Test with different days (day=2, day=3, etc.)
+3. ✅ Run production workflow with `dry_run=true`
+4. ✅ Go live! Let the automated schedule run
 
-**Ready?** Start with Step 1 and you'll be live in 15 minutes! ⏰
+## Need Help?
+
+Check these files:
+- `DEBUGGING_GUIDE.md` - Detailed troubleshooting
+- `RAILWAY_CONFIG.md` - Railway-specific configuration
+- `RAILWAY_SETUP.md` - General Railway setup info
+
+Or check the GitHub Actions logs - they now show detailed debug info! 🔍
