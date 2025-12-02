@@ -5,11 +5,11 @@ Automated email delivery system for the Advent of AI daily challenges. This syst
 ## 🎯 Features
 
 - **Automated Daily Emails**: Sends challenge emails every day at 9:00 AM UTC during December 1-25
-- **Database Integration**: Syncs new signups from Railway PostgreSQL database
+- **Simple Email Management**: JSON-based email list - no database required!
 - **Manual Triggers**: Send emails on-demand with test mode support
 - **Beautiful Email Templates**: Responsive HTML emails with gradient styling
 - **Challenge Content Fetching**: Automatically pulls markdown from GitHub repository
-- **Subscriber Management**: JSON-based email list with metadata tracking
+- **Easy Subscriber Management**: Add/remove emails with simple CLI commands
 
 ## 📁 Project Structure
 
@@ -22,7 +22,7 @@ advent-of-ai-emails/
 ├── data/
 │   └── email-list.json                  # Subscriber email list
 ├── scripts/
-│   ├── query-new-signups.ts             # Sync signups from Railway
+│   ├── add-email.ts                     # Add/remove/list emails
 │   ├── send-challenge-email.ts          # Email sending logic
 │   └── fetch-challenge.ts               # Fetch challenge content
 ├── .env.example                         # Environment variables template
@@ -38,7 +38,6 @@ advent-of-ai-emails/
 - Node.js 20+
 - npm or yarn
 - SendGrid account with API key
-- Railway PostgreSQL database (for signup syncing)
 - GitHub repository with challenge content
 
 ### Installation
@@ -64,7 +63,8 @@ advent-of-ai-emails/
    SENDGRID_API_KEY=your_sendgrid_api_key
    FROM_EMAIL=noreply@adventofai.com
    FROM_NAME=Advent of AI
-   DATABASE_URL=postgresql://user:password@host:port/database
+   REPLY_TO_EMAIL=support@adventofai.com
+   UNSUBSCRIBE_URL=https://adventofai.com/unsubscribe
    GITHUB_REPO_OWNER=your-username
    GITHUB_REPO_NAME=frosty-agent-forge
    ```
@@ -77,7 +77,6 @@ advent-of-ai-emails/
    - `FROM_NAME`
    - `REPLY_TO_EMAIL`
    - `UNSUBSCRIBE_URL`
-   - `DATABASE_URL`
    - `GITHUB_REPO_OWNER`
    - `GITHUB_REPO_NAME`
    - `GH_TOKEN` (optional, for private repos)
@@ -86,9 +85,19 @@ advent-of-ai-emails/
 
 ### Local Testing
 
-**Query new signups:**
+**Add emails to subscriber list:**
 ```bash
-npm run query-signups
+# Add single email
+npm run add-email -- user@example.com
+
+# Add multiple emails
+npm run add-email -- user1@example.com user2@example.com user3@example.com
+
+# List all emails
+npm run add-email -- --list
+
+# Remove an email
+npm run add-email -- --remove user@example.com
 ```
 
 **Fetch a specific challenge:**
@@ -111,9 +120,8 @@ npm run send-challenge -- --day=1
 #### Automated Daily Emails
 
 The workflow runs automatically at 9:00 AM UTC every day in December:
-- Syncs new signups from database
-- Fetches the current day's challenge
-- Sends emails to all subscribers
+- Fetches the current day's challenge from GitHub
+- Sends emails to all subscribers in the email list
 
 #### Manual Email Send
 
@@ -125,7 +133,6 @@ Trigger manually from GitHub Actions tab:
    - **day**: Challenge day (1-25)
    - **test_mode**: Enable to send to test email only
    - **test_email**: Email address for test mode
-   - **sync_signups**: Sync new signups before sending
 
 **Example Use Cases:**
 
@@ -137,26 +144,44 @@ Trigger manually from GitHub Actions tab:
 - **Send catch-up email:**
   - day: `3`
   - test_mode: `false`
-  - sync_signups: `true`
 
-- **Resend without syncing:**
-  - day: `5`
-  - test_mode: `false`
-  - sync_signups: `false`
+## 📋 Email List Management
 
-## 🗄️ Database Schema
+The email list is stored in `data/email-list.json` with this structure:
 
-The system expects a PostgreSQL table with at least:
-
-```sql
-CREATE TABLE signups (
-  id SERIAL PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+```json
+{
+  "emails": [
+    "user1@example.com",
+    "user2@example.com"
+  ],
+  "lastUpdated": "2024-12-02T12:00:00.000Z",
+  "metadata": {
+    "totalSubscribers": 2,
+    "lastSyncDate": "2024-12-02T12:00:00.000Z"
+  }
+}
 ```
 
-Adjust the query in `scripts/query-new-signups.ts` if your schema differs.
+### Managing Subscribers
+
+**Add emails:**
+```bash
+npm run add-email -- new@example.com
+```
+
+**Remove emails:**
+```bash
+npm run add-email -- --remove old@example.com
+```
+
+**List all subscribers:**
+```bash
+npm run add-email -- --list
+```
+
+**Bulk import from CSV:**
+You can also manually edit `data/email-list.json` to add multiple emails at once.
 
 ## 📝 Challenge Content Format
 
@@ -223,12 +248,6 @@ schedule:
 2. Check sender email is verified in SendGrid
 3. Review GitHub Actions logs for errors
 4. Test locally with `--test` flag
-
-### Database connection issues
-
-1. Verify `DATABASE_URL` is correct
-2. Check Railway database is accessible
-3. Ensure SSL settings match your environment
 
 ### Challenge not found
 

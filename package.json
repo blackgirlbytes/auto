@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node",
-    "query-signups": "ts-node scripts/query-new-signups.ts",
+    "add-email": "ts-node scripts/add-email.ts",
     "send-challenge": "ts-node scripts/send-challenge-email.ts",
     "fetch-challenge": "ts-node scripts/fetch-challenge.ts",
     "test-send": "ts-node scripts/send-challenge-email.ts --test"
@@ -22,12 +22,10 @@
     "@sendgrid/mail": "^8.1.0",
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
-    "marked": "^11.1.0",
-    "pg": "^8.11.3"
+    "marked": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
-    "@types/pg": "^8.10.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

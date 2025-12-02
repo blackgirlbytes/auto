@@ -16,11 +16,6 @@ on:
         description: 'Test email address (required if test mode is enabled)'
         required: false
         type: string
-      sync_signups:
-        description: 'Sync new signups before sending'
-        required: false
-        type: boolean
-        default: true
 
 jobs:
   manual-send:
@@ -50,21 +45,6 @@ jobs:
             echo "❌ Error: Test email is required when test mode is enabled"
             exit 1
           fi
-
-      - name: Query new signups
-        if: inputs.sync_signups == true
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npm run query-signups
-
-      - name: Commit updated email list
-        if: inputs.sync_signups == true
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'Update email list with new signups (manual sync)'
-          file_pattern: 'data/email-list.json'
-          commit_user_name: 'github-actions[bot]'
-          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
 
       - name: Send challenge email (Test Mode)
         if: inputs.test_mode == true

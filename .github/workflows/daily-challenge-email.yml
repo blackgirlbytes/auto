@@ -28,19 +28,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Query new signups
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npm run query-signups
-
-      - name: Commit updated email list
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'Update email list with new signups'
-          file_pattern: 'data/email-list.json'
-          commit_user_name: 'github-actions[bot]'
-          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
-
       - name: Send challenge email
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
