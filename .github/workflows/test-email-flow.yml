@@ -139,9 +139,14 @@ jobs:
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- node --version
           
           echo ""
-          echo "2️⃣ Test database query using script file (avoids shell escaping issues):"
+          echo "2️⃣ Test database query using script from file (avoids shell escaping issues):"
+          # Read the script content from our repo file
+          QUERY_SCRIPT=$(cat scripts/railway-query-db.js | grep -v '^#!' | tr '\n' ' ')
+          echo "   Script: $QUERY_SCRIPT"
+          
+          # Execute the script on Railway
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node scripts/railway-query-db.js
+            node -e "$QUERY_SCRIPT"
           
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

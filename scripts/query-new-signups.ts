@@ -45,11 +45,16 @@ function fetchSignupsFromRailway(): Signup[] {
     // Build command using service NAME (not ID) to avoid Railway CLI auth bug
     const railwayCmd = `railway ssh --service ${serviceName} --environment ${environment}`;
     
-    // Use a separate script file to avoid shell escaping issues
-    const command = `${railwayCmd} -- node scripts/railway-query-db.js`;
+    // Read the query script from file to avoid shell escaping issues
+    const scriptPath = join(process.cwd(), 'scripts', 'railway-query-db.js');
+    const scriptContent = readFileSync(scriptPath, 'utf-8')
+      .replace(/^#!.*\n/, '') // Remove shebang
+      .replace(/\n/g, ' ');   // Make it one line
+    
+    const command = `${railwayCmd} -- node -e "${scriptContent}"`;
     
     console.log('\n📡 Executing Railway SSH command...');
-    console.log(`   Command: ${railwayCmd} -- node scripts/railway-query-db.js`);
+    console.log(`   Command: ${railwayCmd} -- node -e "...script from file..."`);
     console.log('');
     
     const output = execSync(command, { 
