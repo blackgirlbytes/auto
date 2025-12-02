@@ -616,5 +616,821 @@
     "subscribed": 1,
     "created_at": "2025-12-02 21:52:01",
     "id": 103
+  },
+  {
+    "email": "khautharah02@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:35:45",
+    "id": 104
+  },
+  {
+    "email": "nick@nickyt.co",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:39:45",
+    "id": 105
+  },
+  {
+    "email": "dakota.dux@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:43:11",
+    "id": 106
+  },
+  {
+    "email": "chandrapraneeth99@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:53:15",
+    "id": 107
+  },
+  {
+    "email": "filip@filiphric.sk",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:54:23",
+    "id": 108
+  },
+  {
+    "email": "st.gilles@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:54:42",
+    "id": 109
+  },
+  {
+    "email": "jjswigut@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:54:49",
+    "id": 110
+  },
+  {
+    "email": "heather@outlawnews.net",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:55:27",
+    "id": 111
+  },
+  {
+    "email": "aazamthakur@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:55:29",
+    "id": 112
+  },
+  {
+    "email": "amcgrath73@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:55:44",
+    "id": 113
+  },
+  {
+    "email": "robert.amanfu@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:55:49",
+    "id": 114
+  },
+  {
+    "email": "datapipelinegeek@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:56:43",
+    "id": 115
+  },
+  {
+    "email": "daisuke@duck.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:56:56",
+    "id": 116
+  },
+  {
+    "email": "talc-patrol.5z@icloud.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:57:37",
+    "id": 117
+  },
+  {
+    "email": "santiago.maniches@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 21:59:45",
+    "id": 118
+  },
+  {
+    "email": "jamal.hinton@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:00:29",
+    "id": 119
+  },
+  {
+    "email": "pfleger.will@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:00:33",
+    "id": 120
+  },
+  {
+    "email": "rosswarren63@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:03:46",
+    "id": 121
+  },
+  {
+    "email": "barista_yonder850@aleeas.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:04:04",
+    "id": 122
+  },
+  {
+    "email": "coeus.the.creator@icloud.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:05:03",
+    "id": 123
+  },
+  {
+    "email": "ademolabuwo@yahoo.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:05:25",
+    "id": 124
+  },
+  {
+    "email": "cocraider203@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:05:46",
+    "id": 125
+  },
+  {
+    "email": "eriharri@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:08:20",
+    "id": 126
+  },
+  {
+    "email": "rdsm@rdsm.ie",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:09:14",
+    "id": 127
+  },
+  {
+    "email": "dave.tustin@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:11:02",
+    "id": 128
+  },
+  {
+    "email": "tj.coles@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:11:36",
+    "id": 129
+  },
+  {
+    "email": "braddux@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:19:53",
+    "id": 130
+  },
+  {
+    "email": "goose.moneybags@mralias.net",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:21:32",
+    "id": 131
+  },
+  {
+    "email": "glasskdj@yahoo.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:22:33",
+    "id": 132
+  },
+  {
+    "email": "tradunskih@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:25:08",
+    "id": 133
+  },
+  {
+    "email": "ekimeu87@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:25:43",
+    "id": 134
+  },
+  {
+    "email": "valeriguerrero22@outlook.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:26:52",
+    "id": 135
+  },
+  {
+    "email": "tchello.mello@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:36:18",
+    "id": 136
+  },
+  {
+    "email": "zach.charlop.powers@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:36:19",
+    "id": 137
+  },
+  {
+    "email": "jordan@addwonder.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:41:28",
+    "id": 138
+  },
+  {
+    "email": "adventofai.dev.r@bell.as",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:41:36",
+    "id": 139
+  },
+  {
+    "email": "kbates4@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:50:28",
+    "id": 140
+  },
+  {
+    "email": "joelgrus@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 22:59:11",
+    "id": 141
+  },
+  {
+    "email": "plata.zach@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:04:51",
+    "id": 142
+  },
+  {
+    "email": "gjacolby83@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:06:11",
+    "id": 143
+  },
+  {
+    "email": "justin@lenacho.be",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:06:12",
+    "id": 144
+  },
+  {
+    "email": "paredeschastity@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:09:03",
+    "id": 145
+  },
+  {
+    "email": "calvintrinhvan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:27:22",
+    "id": 146
+  },
+  {
+    "email": "professor.d.nyc@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:40:33",
+    "id": 147
+  },
+  {
+    "email": "kendallc@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:45:06",
+    "id": 148
+  },
+  {
+    "email": "ssickle@squareup.com",
+    "subscribed": 1,
+    "created_at": "2025-11-30 23:51:43",
+    "id": 149
+  },
+  {
+    "email": "scarlett.spade@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:06:29",
+    "id": 150
+  },
+  {
+    "email": "philnash@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:07:19",
+    "id": 151
+  },
+  {
+    "email": "gansm@hotmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:24:49",
+    "id": 152
+  },
+  {
+    "email": "bettyghazarian@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:25:38",
+    "id": 153
+  },
+  {
+    "email": "kitty_tape@yahoo.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:32:04",
+    "id": 154
+  },
+  {
+    "email": "masaqib5@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:41:50",
+    "id": 155
+  },
+  {
+    "email": "charleswarrenlane@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:44:01",
+    "id": 156
+  },
+  {
+    "email": "mohammadhossein.malekpour@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:47:21",
+    "id": 157
+  },
+  {
+    "email": "sai.shruthi.balaji@autodesk.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:49:22",
+    "id": 158
+  },
+  {
+    "email": "bradlry.chandra@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 00:59:27",
+    "id": 159
+  },
+  {
+    "email": "saiadithyaa2306@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 01:00:40",
+    "id": 160
+  },
+  {
+    "email": "cbgrasshopper@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 01:16:45",
+    "id": 161
+  },
+  {
+    "email": "liuwen@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:02:39",
+    "id": 162
+  },
+  {
+    "email": "jfeala@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:13:35",
+    "id": 163
+  },
+  {
+    "email": "alopen@yandex.ru",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:21:32",
+    "id": 164
+  },
+  {
+    "email": "krishnaopensource108@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:27:41",
+    "id": 165
+  },
+  {
+    "email": "dmohammedyahiya@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:43:38",
+    "id": 166
+  },
+  {
+    "email": "fahadbandali99@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:44:25",
+    "id": 167
+  },
+  {
+    "email": "jasminalvarezdev@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 02:45:48",
+    "id": 168
+  },
+  {
+    "email": "ashleeoverholt@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 03:02:46",
+    "id": 169
+  },
+  {
+    "email": "mdoughlin@hotmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 03:09:08",
+    "id": 170
+  },
+  {
+    "email": "amrosh.ror@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 03:58:03",
+    "id": 171
+  },
+  {
+    "email": "tylerwince@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 04:16:57",
+    "id": 172
+  },
+  {
+    "email": "natejaune@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 04:20:32",
+    "id": 173
+  },
+  {
+    "email": "aileenvl@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 04:24:47",
+    "id": 174
+  },
+  {
+    "email": "pierretokns@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 04:28:14",
+    "id": 175
+  },
+  {
+    "email": "waxwing_goodbye9e@icloud.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 04:45:25",
+    "id": 176
+  },
+  {
+    "email": "hakansonmez2000@yahoo.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 04:47:13",
+    "id": 177
+  },
+  {
+    "email": "elijahkcm@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 05:01:01",
+    "id": 178
+  },
+  {
+    "email": "elangomca@yahoo.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 05:43:39",
+    "id": 179
+  },
+  {
+    "email": "adventofai.dev@f0i.de",
+    "subscribed": 1,
+    "created_at": "2025-12-01 05:49:59",
+    "id": 180
+  },
+  {
+    "email": "banister-scuba-keg@duck.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 05:58:42",
+    "id": 181
+  },
+  {
+    "email": "sanjana.gunda27@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 06:27:48",
+    "id": 182
+  },
+  {
+    "email": "stepomaticc@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 06:42:14",
+    "id": 183
+  },
+  {
+    "email": "me@kaofelix.dev",
+    "subscribed": 1,
+    "created_at": "2025-12-01 07:34:42",
+    "id": 184
+  },
+  {
+    "email": "upfront-ebony-idly@duck.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 08:14:38",
+    "id": 185
+  },
+  {
+    "email": "marksmellie892@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 08:35:51",
+    "id": 186
+  },
+  {
+    "email": "pvli5fp1fx3m@opayq.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 08:47:16",
+    "id": 187
+  },
+  {
+    "email": "kunule8@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 08:58:58",
+    "id": 188
+  },
+  {
+    "email": "gandan.dev@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 09:02:05",
+    "id": 189
+  },
+  {
+    "email": "koy548@g.harvard.edu",
+    "subscribed": 1,
+    "created_at": "2025-12-01 09:12:53",
+    "id": 190
+  },
+  {
+    "email": "morepencils@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 09:19:04",
+    "id": 191
+  },
+  {
+    "email": "me@gkjh.de",
+    "subscribed": 1,
+    "created_at": "2025-12-01 09:24:29",
+    "id": 192
+  },
+  {
+    "email": "v.gagaleski@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 09:30:04",
+    "id": 193
+  },
+  {
+    "email": "maringen01@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 09:54:09",
+    "id": 194
+  },
+  {
+    "email": "jferrell@assembly.health",
+    "subscribed": 1,
+    "created_at": "2025-12-01 10:27:46",
+    "id": 195
+  },
+  {
+    "email": "wizearch55@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 10:37:39",
+    "id": 196
+  },
+  {
+    "email": "tedsteinmann@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:05:43",
+    "id": 197
+  },
+  {
+    "email": "knollingart@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:14:17",
+    "id": 198
+  },
+  {
+    "email": "maros.dzuris@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:20:21",
+    "id": 199
+  },
+  {
+    "email": "alan@compendiumdev.co.uk",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:27:18",
+    "id": 200
+  },
+  {
+    "email": "abhinov.b@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:38:39",
+    "id": 201
+  },
+  {
+    "email": "joservarelaf@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:41:19",
+    "id": 202
+  },
+  {
+    "email": "viteinfinite@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:43:38",
+    "id": 203
+  },
+  {
+    "email": "filip@bukovinafilip.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:55:16",
+    "id": 204
+  },
+  {
+    "email": "malovic@yahoo.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 12:55:36",
+    "id": 205
+  },
+  {
+    "email": "roy+goose@roycoding.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 14:02:03",
+    "id": 206
+  },
+  {
+    "email": "vivekvangals@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 14:07:06",
+    "id": 207
+  },
+  {
+    "email": "rob.aston@sscinc.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 14:08:03",
+    "id": 208
+  },
+  {
+    "email": "achu.krishna91@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 14:09:46",
+    "id": 209
+  },
+  {
+    "email": "bernard.mccormack@klaviyo.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 14:15:56",
+    "id": 210
+  },
+  {
+    "email": "arusharmazxx000@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 14:22:19",
+    "id": 211
+  },
+  {
+    "email": "kevin@xlcommunities.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 15:09:31",
+    "id": 212
+  },
+  {
+    "email": "malikzeeshan3.1417@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 15:20:17",
+    "id": 213
+  },
+  {
+    "email": "amanjes2@asu.edu",
+    "subscribed": 1,
+    "created_at": "2025-12-01 15:24:04",
+    "id": 214
+  },
+  {
+    "email": "wstasyna@paramountcommerce.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 15:43:12",
+    "id": 215
+  },
+  {
+    "email": "arunvishwanathan88@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 15:43:38",
+    "id": 216
+  },
+  {
+    "email": "m.prashanthpsg@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:19:58",
+    "id": 217
+  },
+  {
+    "email": "mquiat1393@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:20:26",
+    "id": 218
+  },
+  {
+    "email": "muhammadraza0047@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:25:38",
+    "id": 219
+  },
+  {
+    "email": "tanishdesai37@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:26:20",
+    "id": 220
+  },
+  {
+    "email": "jamie.nicholson@autodesk.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:35:22",
+    "id": 221
+  },
+  {
+    "email": "danielmorrisey@pm.me",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:46:27",
+    "id": 222
+  },
+  {
+    "email": "bestcodes.official@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 16:47:49",
+    "id": 223
+  },
+  {
+    "email": "mando@mando.org",
+    "subscribed": 1,
+    "created_at": "2025-12-01 17:04:34",
+    "id": 224
+  },
+  {
+    "email": "zariahallager@outlook.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 17:05:23",
+    "id": 225
+  },
+  {
+    "email": "clovis-@live.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 17:20:16",
+    "id": 226
+  },
+  {
+    "email": "trngdat@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 17:20:30",
+    "id": 227
+  },
+  {
+    "email": "benjman247@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 17:41:06",
+    "id": 228
+  },
+  {
+    "email": "sean@isakower.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 17:47:33",
+    "id": 229
+  },
+  {
+    "email": "greenmarmelade@proton.me",
+    "subscribed": 1,
+    "created_at": "2025-12-01 18:10:08",
+    "id": 230
+  },
+  {
+    "email": "jajunidhi@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 18:17:03",
+    "id": 231
+  },
+  {
+    "email": "saint@ghost.lt",
+    "subscribed": 1,
+    "created_at": "2025-12-01 18:18:09",
+    "id": 232
+  },
+  {
+    "email": "jackgilbert8@hotmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 18:28:56",
+    "id": 233
+  },
+  {
+    "email": "yingshen.yu@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 18:53:18",
+    "id": 234
+  },
+  {
+    "email": "patryk@airspace-intelligence.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 18:55:42",
+    "id": 235
+  },
+  {
+    "email": "tonyliu312@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 19:00:52",
+    "id": 236
+  },
+  {
+    "email": "ilpoleppanen@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 19:08:22",
+    "id": 237
+  },
+  {
+    "email": "tyler.weir@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 19:36:41",
+    "id": 238
+  },
+  {
+    "email": "heatherita@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-01 20:09:04",
+    "id": 239
   }
 ]
