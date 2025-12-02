@@ -88,6 +88,43 @@ jobs:
           fi
         continue-on-error: false
       
+      - name: Debug Railway Filesystem
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
+        run: |
+          echo "🔍 Debugging Railway filesystem..."
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          
+          RAILWAY_CMD="railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT}"
+          
+          echo ""
+          echo "1️⃣ Current working directory:"
+          $RAILWAY_CMD -- pwd
+          
+          echo ""
+          echo "2️⃣ Directory listing (recursive):"
+          $RAILWAY_CMD -- ls -R .
+          
+          echo ""
+          echo "3️⃣ Finding signups.db:"
+          $RAILWAY_CMD -- find / -name "signups.db" 2>/dev/null || echo "   (find command failed or no results)"
+          
+          echo ""
+          echo "4️⃣ Checking common paths:"
+          $RAILWAY_CMD -- ls -la /data/signups.db 2>/dev/null && echo "   ✅ Found at /data/signups.db" || echo "   ❌ Not at /data/signups.db"
+          $RAILWAY_CMD -- ls -la ./data/signups.db 2>/dev/null && echo "   ✅ Found at ./data/signups.db" || echo "   ❌ Not at ./data/signups.db"
+          $RAILWAY_CMD -- ls -la ~/data/signups.db 2>/dev/null && echo "   ✅ Found at ~/data/signups.db" || echo "   ❌ Not at ~/data/signups.db"
+          
+          echo ""
+          echo "5️⃣ Checking if better-sqlite3 is available:"
+          $RAILWAY_CMD -- node -e 'console.log(require("better-sqlite3"))' 2>/dev/null && echo "   ✅ better-sqlite3 is installed" || echo "   ❌ better-sqlite3 not found"
+          
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        continue-on-error: true
+      
       - name: Run full test flow
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
