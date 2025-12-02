@@ -139,13 +139,26 @@ jobs:
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- node --version
           
           echo ""
-          echo "2️⃣ Test database query using base64 encoding (avoids ALL shell escaping issues):"
+          echo "2️⃣ Test if base64 command exists on Railway:"
+          railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- which base64
+          railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- base64 --version
+          
+          echo ""
+          echo "3️⃣ Test base64 encoding/decoding:"
+          railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
+            bash -c "echo 'console.log(\"Hello from Node\")' | base64 | base64 -d | node"
+          
+          echo ""
+          echo "4️⃣ Test database query using base64 encoding:"
           # Read the script and encode it to base64
           QUERY_SCRIPT_B64=$(cat scripts/railway-query-db.js | grep -v '^#!' | base64 -w 0)
+          echo "   Base64 length: ${#QUERY_SCRIPT_B64} chars"
+          echo "   First 50 chars: ${QUERY_SCRIPT_B64:0:50}..."
           
           # Execute on Railway by decoding and piping to node
+          echo "   Executing..."
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            bash -c "echo $QUERY_SCRIPT_B64 | base64 -d | node"
+            bash -c "echo '$QUERY_SCRIPT_B64' | base64 -d | node" || echo "   ❌ Command failed with exit code $?"
           
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
