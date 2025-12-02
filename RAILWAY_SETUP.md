@@ -1,193 +1,131 @@
 # Railway Setup Guide
 
-## Required GitHub Secrets
+## Why No `railway link`?
 
-You need **TWO** Railway-related secrets for the workflows to work:
+The `railway ssh` command can work **directly** with command-line flags, so we don't need to run `railway link` in CI/CD environments!
 
-### 1. RAILWAY_TOKEN (Required)
-Your Railway API token for authentication.
+## How It Works
 
-**How to get it:**
-1. Go to [Railway Dashboard](https://railway.app/)
-2. Click on your profile (bottom left)
-3. Click **Account Settings**
-4. Click **Tokens** tab
-5. Click **Create Token**
-6. Give it a name (e.g., "GitHub Actions")
-7. Copy the token (you'll only see it once!)
+### Authentication
+The Railway CLI automatically uses the `RAILWAY_TOKEN` environment variable for authentication. No login command needed!
 
-**Add to GitHub:**
-- Name: `RAILWAY_TOKEN`
-- Value: `your_token_here`
+### Connecting to Your Service
+Instead of linking, we pass flags directly to `railway ssh`:
 
----
-
-### 2. RAILWAY_PROJECT_ID (Optional but Recommended)
-Your specific Railway project ID.
-
-**How to get it:**
-
-#### Method 1: From Railway Dashboard URL
-1. Go to your Railway project
-2. Look at the URL: `https://railway.app/project/YOUR_PROJECT_ID`
-3. Copy the `YOUR_PROJECT_ID` part
-
-#### Method 2: Using Railway CLI
 ```bash
-# Login to Railway
+railway ssh --project <PROJECT_ID> --service <SERVICE_ID> --environment <ENV> "command"
+```
+
+## GitHub Secrets Setup
+
+### Required Secrets (3)
+These are **mandatory** for the system to work:
+
+1. **`SENDGRID_API_KEY`** - Your SendGrid API key for sending emails
+2. **`FROM_EMAIL`** - The email address to send from (e.g., `noreply@yourdomain.com`)
+3. **`RAILWAY_TOKEN`** - Your Railway API token for database access
+
+### Optional Secrets (3)
+These help Railway identify your specific project/service:
+
+4. **`RAILWAY_PROJECT_ID`** - Your Railway project ID (recommended)
+5. **`RAILWAY_SERVICE_ID`** - Your Railway service ID (only needed if you have multiple services)
+6. **`RAILWAY_ENVIRONMENT`** - Railway environment name (defaults to `production` if not set)
+
+## How to Get Railway IDs
+
+### Option 1: Railway Dashboard
+1. Go to your Railway project dashboard
+2. Click on your service
+3. Go to Settings
+4. Copy the Project ID and Service ID
+
+### Option 2: Railway CLI (Local)
+```bash
+# Login locally
 railway login
 
-# Link to your project (if not already linked)
+# Link to your project
 railway link
 
-# Get project ID
+# Get project info
 railway status
-# Look for "Project ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# The IDs will be shown in the output
 ```
 
-#### Method 3: From railway.json (if you have one)
+### Option 3: Railway API
 ```bash
-cat railway.json
-# Look for "projectId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# Get your token from: https://railway.app/account/tokens
+export RAILWAY_TOKEN="your_token_here"
+
+# List projects
+curl -H "Authorization: Bearer $RAILWAY_TOKEN" \
+  https://backboard.railway.app/graphql \
+  -d '{"query":"{ projects { edges { node { id name } } } }"}'
 ```
 
-**Add to GitHub:**
-- Name: `RAILWAY_PROJECT_ID`
-- Value: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
+## How the Scripts Use Railway
 
----
+### In `query-new-signups.ts`
+```typescript
+// Builds command like:
+// railway ssh --project abc123 --service xyz789 --environment production "node -e ..."
 
-## Why Do We Need Both?
+const railwayCmd = 'railway ssh';
+if (projectId) railwayCmd += ` --project ${projectId}`;
+if (serviceId) railwayCmd += ` --service ${serviceId}`;
+railwayCmd += ` --environment ${environment}`;
+```
 
-### RAILWAY_TOKEN
-- Authenticates you with Railway
-- Required for `railway login --browserless`
-- Allows access to your Railway account
+### Environment Variables Read
+- `RAILWAY_TOKEN` - Required for authentication
+- `RAILWAY_PROJECT_ID` - Optional, helps identify project
+- `RAILWAY_SERVICE_ID` - Optional, helps identify service
+- `RAILWAY_ENVIRONMENT` - Optional, defaults to `production`
 
-### RAILWAY_PROJECT_ID
-- Specifies which project to connect to
-- Required for `railway link`
-- Ensures commands run against the correct database
+## Testing Locally
 
----
-
-## Testing Railway Connection
-
-### Local Test
 ```bash
-# Set your token
-export RAILWAY_TOKEN=your_token_here
+# Set your Railway token
+export RAILWAY_TOKEN="your_token_here"
 
-# Login
-railway login --browserless
+# Optional: Set project/service IDs
+export RAILWAY_PROJECT_ID="abc123"
+export RAILWAY_SERVICE_ID="xyz789"
+export RAILWAY_ENVIRONMENT="production"
 
-# Link to project (if you have the ID)
-railway link your_project_id
-
-# Test the query
-railway ssh "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\""
+# Test the query script
+npm run query-signups
 ```
-
-### Expected Output
-```json
-[
-  {
-    "email": "user@example.com",
-    "subscribed": 1,
-    "created_at": "2025-12-01 21:11:17",
-    "id": 1
-  },
-  ...
-]
-```
-
----
 
 ## Troubleshooting
 
-### Error: "Project Token not found"
-**Cause:** Railway CLI not authenticated or project not linked
+### Error: "Could not find JSON output from Railway"
+- Check that your Railway service has `better-sqlite3` installed
+- Verify the database path: `./data/signups.db`
+- Check that the `signups` table exists
 
-**Solution:**
-1. Verify `RAILWAY_TOKEN` is set in GitHub Secrets
-2. Add `RAILWAY_PROJECT_ID` to GitHub Secrets
-3. Check token hasn't expired
-4. Ensure you have access to the project
+### Error: "RAILWAY_TOKEN environment variable not set"
+- Make sure you've added `RAILWAY_TOKEN` to GitHub Secrets
+- For local testing, export it: `export RAILWAY_TOKEN="..."`
 
-### Error: "Authentication failed"
-**Cause:** Invalid or expired token
+### Error: "Failed to fetch from Railway"
+- Verify your Railway token is valid
+- Check that the project/service IDs are correct
+- Ensure the service is running
 
-**Solution:**
-1. Generate a new token in Railway Dashboard
-2. Update `RAILWAY_TOKEN` in GitHub Secrets
-3. Try again
+## Benefits of This Approach
 
-### Error: "Project not found"
-**Cause:** Incorrect project ID or no access
+✅ **No interactive login** - Works perfectly in CI/CD  
+✅ **No state files** - No `.railway` directory needed  
+✅ **Explicit configuration** - Clear which project/service we're using  
+✅ **Portable** - Works the same locally and in GitHub Actions  
+✅ **Secure** - Token stored as GitHub Secret, never in code  
 
-**Solution:**
-1. Verify project ID is correct
-2. Ensure your Railway account has access to the project
-3. Check project hasn't been deleted
+## Next Steps
 
-### Railway Query Works Locally But Not in GitHub Actions
-**Cause:** Missing environment variables or project context
-
-**Solution:**
-1. Ensure both secrets are added to GitHub
-2. Check workflow has `continue-on-error: true` for Railway steps
-3. Verify Railway project is active (not paused)
-
----
-
-## Alternative: Skip Railway Query
-
-If Railway integration is problematic, you can:
-
-### Option 1: Manual Email List Updates
-Just update `data/email-list.json` manually when you get new signups.
-
-### Option 2: Remove Railway Steps
-Comment out or remove the Railway query steps from workflows:
-
-```yaml
-# - name: Install Railway CLI
-#   run: npm install -g @railway/cli
-# 
-# - name: Authenticate Railway CLI
-#   ...
-# 
-# - name: Query new signups from Railway
-#   ...
-```
-
-The email sending will still work perfectly - it just won't auto-sync new signups.
-
----
-
-## Summary
-
-**Minimum Required:**
-- ✅ `RAILWAY_TOKEN` - For authentication
-
-**Recommended:**
-- ✅ `RAILWAY_TOKEN` - For authentication
-- ✅ `RAILWAY_PROJECT_ID` - For project linking
-
-**Both secrets go in:**
-`https://github.com/blackgirlbytes/auto/settings/secrets/actions`
-
----
-
-## Quick Setup Checklist
-
-- [ ] Get Railway token from dashboard
-- [ ] Get Railway project ID from URL or CLI
-- [ ] Add `RAILWAY_TOKEN` to GitHub Secrets
-- [ ] Add `RAILWAY_PROJECT_ID` to GitHub Secrets
-- [ ] Test workflow
-- [ ] Verify Railway query succeeds in logs
-
----
-
-**Need help?** Check the [Railway CLI docs](https://docs.railway.app/develop/cli) or skip Railway integration entirely!
+1. Add the required secrets to GitHub: https://github.com/blackgirlbytes/auto/settings/secrets/actions
+2. Run the test workflow to verify everything works
+3. Check your email at rizel@block.xyz
+4. Go live! 🚀
