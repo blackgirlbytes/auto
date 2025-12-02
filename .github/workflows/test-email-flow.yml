@@ -151,6 +151,46 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         continue-on-error: true
       
+      - name: Echo Raw Railway Query Output
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
+        run: |
+          echo "🔍 Raw Railway Query Output (what the script sees):"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          
+          # Read the script and encode it to base64
+          QUERY_SCRIPT_B64=$(cat scripts/railway-query-db.js | grep -v '^#!' | base64 -w 0)
+          
+          # Execute on Railway and capture output
+          echo "📡 Executing query..."
+          OUTPUT=$(railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
+            bash -c "echo $QUERY_SCRIPT_B64 | base64 -d | node" 2>&1)
+          
+          echo "📋 Full output (including stderr):"
+          echo "$OUTPUT"
+          echo ""
+          
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          
+          # Try to parse as JSON
+          echo "🧪 Attempting to parse as JSON..."
+          if echo "$OUTPUT" | jq . > /dev/null 2>&1; then
+            echo "✅ Valid JSON!"
+            echo "📊 Number of records: $(echo "$OUTPUT" | jq 'length')"
+            echo "📧 First 3 emails:"
+            echo "$OUTPUT" | jq -r '.[0:3] | .[] | .email'
+          else
+            echo "❌ NOT valid JSON!"
+            echo "This is why the script fails to parse it."
+          fi
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        continue-on-error: true
+      
       # Temporarily commented out to avoid wasting emails during debugging
       - name: Run full test flow
         env:
