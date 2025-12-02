@@ -139,14 +139,13 @@ jobs:
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- node --version
           
           echo ""
-          echo "2️⃣ Test database query using script from file (avoids shell escaping issues):"
-          # Read the script content from our repo file
-          QUERY_SCRIPT=$(cat scripts/railway-query-db.js | grep -v '^#!' | tr '\n' ' ')
-          echo "   Script: $QUERY_SCRIPT"
+          echo "2️⃣ Test database query using base64 encoding (avoids ALL shell escaping issues):"
+          # Read the script and encode it to base64
+          QUERY_SCRIPT_B64=$(cat scripts/railway-query-db.js | grep -v '^#!' | base64 -w 0)
           
-          # Execute the script on Railway
+          # Execute on Railway by decoding and piping to node
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node -e "$QUERY_SCRIPT"
+            bash -c "echo $QUERY_SCRIPT_B64 | base64 -d | node"
           
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
