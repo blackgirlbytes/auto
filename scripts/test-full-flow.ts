@@ -41,8 +41,40 @@ const TEST_EMAIL = 'rizel@block.xyz';
 function queryRailwaySignups(): Signup[] {
   try {
     console.log('\n📡 Step 1: Querying Railway for signups...');
+    console.log('━'.repeat(50));
     
-    const command = `railway ssh "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
+    // Build command with optional project/service/environment flags
+    const projectId = process.env.RAILWAY_PROJECT_ID;
+    const serviceId = process.env.RAILWAY_SERVICE_ID || process.env.RAILWAY_SERVICE;
+    const environment = process.env.RAILWAY_ENVIRONMENT || 'production';
+    const token = process.env.RAILWAY_TOKEN;
+    
+    console.log('🔍 Railway Configuration:');
+    console.log(`   Token: ${token ? '✅ Set (' + token.length + ' chars)' : '❌ Not set'}`);
+    console.log(`   Project ID: ${projectId || '⚠️  Not set'}`);
+    console.log(`   Service ID: ${serviceId || '⚠️  Not set'}`);
+    console.log(`   Environment: ${environment}`);
+    console.log('━'.repeat(50));
+    
+    if (!token) {
+      console.warn('⚠️  RAILWAY_TOKEN not set, skipping Railway query');
+      return [];
+    }
+    
+    if (!projectId) {
+      console.warn('⚠️  WARNING: RAILWAY_PROJECT_ID not set. Railway CLI may fail to find your project.');
+    }
+    
+    let railwayCmd = 'railway ssh';
+    if (projectId) railwayCmd += ` --project ${projectId}`;
+    if (serviceId) railwayCmd += ` --service ${serviceId}`;
+    railwayCmd += ` --environment ${environment}`;
+    
+    const command = `${railwayCmd} "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
+    
+    console.log('\n📡 Executing Railway SSH command...');
+    console.log(`   Command: ${railwayCmd} "node -e ..."`);
+    console.log('');
     
     const output = execSync(command, { 
       encoding: 'utf-8',

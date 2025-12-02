@@ -31,6 +31,69 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       
+      - name: Debug Railway Configuration
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
+        run: |
+          echo "🔍 Railway Configuration Debug:"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "RAILWAY_TOKEN: ${RAILWAY_TOKEN:+✅ Set (${#RAILWAY_TOKEN} chars)}"
+          echo "RAILWAY_PROJECT_ID: ${RAILWAY_PROJECT_ID:-❌ Not set}"
+          echo "RAILWAY_SERVICE_ID: ${RAILWAY_SERVICE_ID:-⚠️  Not set (optional)}"
+          echo "RAILWAY_ENVIRONMENT: ${RAILWAY_ENVIRONMENT:-production}"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "❌ ERROR: RAILWAY_TOKEN is required!"
+            exit 1
+          fi
+          
+          if [ -z "$RAILWAY_PROJECT_ID" ]; then
+            echo "⚠️  WARNING: RAILWAY_PROJECT_ID not set. Railway CLI may not find your project."
+            echo "   Add it to GitHub Secrets for reliable operation."
+          fi
+      
+      - name: Test Railway Connection
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
+        run: |
+          echo "🧪 Testing Railway SSH connection..."
+          
+          # Build the railway ssh command with all available flags
+          RAILWAY_CMD="railway ssh"
+          
+          if [ -n "$RAILWAY_PROJECT_ID" ]; then
+            RAILWAY_CMD="$RAILWAY_CMD --project $RAILWAY_PROJECT_ID"
+          fi
+          
+          if [ -n "$RAILWAY_SERVICE_ID" ]; then
+            RAILWAY_CMD="$RAILWAY_CMD --service $RAILWAY_SERVICE_ID"
+          fi
+          
+          RAILWAY_CMD="$RAILWAY_CMD --environment ${RAILWAY_ENVIRONMENT:-production}"
+          
+          echo "📡 Running: $RAILWAY_CMD \"echo 'Connection test successful'\""
+          
+          if $RAILWAY_CMD "echo 'Connection test successful'"; then
+            echo "✅ Railway connection successful!"
+          else
+            echo "❌ Railway connection failed!"
+            echo ""
+            echo "Troubleshooting steps:"
+            echo "1. Verify RAILWAY_TOKEN is correct"
+            echo "2. Verify RAILWAY_PROJECT_ID matches your project"
+            echo "3. Check that the service is running"
+            echo "4. Ensure your token has access to this project"
+            exit 1
+          fi
+        continue-on-error: false
+      
       - name: Run full test flow
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
