@@ -125,6 +125,41 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         continue-on-error: true
       
+      - name: Test Database Query
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
+        run: |
+          echo "🧪 Testing database query command..."
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          
+          RAILWAY_CMD="railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT}"
+          
+          echo ""
+          echo "1️⃣ Test simple node command:"
+          $RAILWAY_CMD -- node -e 'console.log("Node works!")'
+          
+          echo ""
+          echo "2️⃣ Test require better-sqlite3:"
+          $RAILWAY_CMD -- node -e 'const db = require("better-sqlite3"); console.log("better-sqlite3 loaded:", typeof db)'
+          
+          echo ""
+          echo "3️⃣ Test opening database:"
+          $RAILWAY_CMD -- node -e 'const db = require("better-sqlite3")("./data/signups.db"); console.log("Database opened successfully"); db.close();'
+          
+          echo ""
+          echo "4️⃣ Test actual query (count):"
+          $RAILWAY_CMD -- node -e 'const db = require("better-sqlite3")("./data/signups.db"); const count = db.prepare("SELECT COUNT(*) as count FROM signups").get(); console.log("Total signups:", count.count); db.close();'
+          
+          echo ""
+          echo "5️⃣ Test full query with JSON output:"
+          $RAILWAY_CMD -- node -e 'const db = require("better-sqlite3")("./data/signups.db"); const all = db.prepare("SELECT * FROM signups ORDER BY created_at DESC LIMIT 3").all(); console.log(JSON.stringify(all)); db.close();'
+          
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        continue-on-error: true
+      
       # Temporarily commented out to avoid wasting emails during debugging
       # - name: Run full test flow
       #   env:
