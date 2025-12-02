@@ -45,8 +45,9 @@ function fetchSignupsFromRailway(): Signup[] {
     // Build command using service NAME (not ID) to avoid Railway CLI auth bug
     const railwayCmd = `railway ssh --service ${serviceName} --environment ${environment}`;
     
-    // Use single quotes for the node command to avoid escaping issues
-    const nodeCmd = `node -e 'const db = require("better-sqlite3")("./data/signups.db"); const all = db.prepare("SELECT * FROM signups ORDER BY created_at DESC").all(); console.log(JSON.stringify(all)); db.close();'`;
+    // Use double quotes for the outer shell and single quotes for JavaScript strings
+    // This avoids shell escaping issues with parentheses
+    const nodeCmd = `node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();"`;
     
     const command = `${railwayCmd} -- ${nodeCmd}`;
     

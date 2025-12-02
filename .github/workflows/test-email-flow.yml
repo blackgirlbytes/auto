@@ -141,22 +141,22 @@ jobs:
           echo ""
           echo "2️⃣ Test require better-sqlite3:"
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node -e 'const db = require("better-sqlite3"); console.log("better-sqlite3 loaded:", typeof db)'
+            node -e "const db = require('better-sqlite3'); console.log('better-sqlite3 loaded:', typeof db)"
           
           echo ""
           echo "3️⃣ Test opening database:"
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node -e 'const db = require("better-sqlite3")("./data/signups.db"); console.log("Database opened successfully"); db.close();'
+            node -e "const db = require('better-sqlite3')('./data/signups.db'); console.log('Database opened successfully'); db.close();"
           
           echo ""
           echo "4️⃣ Test actual query (count):"
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node -e 'const db = require("better-sqlite3")("./data/signups.db"); const count = db.prepare("SELECT COUNT(*) as count FROM signups").get(); console.log("Total signups:", count.count); db.close();'
+            node -e "const db = require('better-sqlite3')('./data/signups.db'); const count = db.prepare('SELECT COUNT(*) as count FROM signups').get(); console.log('Total signups:', count.count); db.close();"
           
           echo ""
           echo "5️⃣ Test full query with JSON output:"
           railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            node -e 'const db = require("better-sqlite3")("./data/signups.db"); const all = db.prepare("SELECT * FROM signups ORDER BY created_at DESC LIMIT 3").all(); console.log(JSON.stringify(all)); db.close();'
+            node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC LIMIT 3').all(); console.log(JSON.stringify(all)); db.close();"
           
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
