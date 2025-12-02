@@ -25,7 +25,21 @@ function fetchSignupsFromRailway(): Signup[] {
   try {
     console.log('📡 Fetching signups from Railway database...');
     
-    const command = `railway ssh "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
+    // Build command with optional project/service/environment flags
+    const projectId = process.env.RAILWAY_PROJECT_ID;
+    const serviceId = process.env.RAILWAY_SERVICE_ID || process.env.RAILWAY_SERVICE;
+    const environment = process.env.RAILWAY_ENVIRONMENT || 'production';
+    
+    let railwayCmd = 'railway ssh';
+    if (projectId) railwayCmd += ` --project ${projectId}`;
+    if (serviceId) railwayCmd += ` --service ${serviceId}`;
+    railwayCmd += ` --environment ${environment}`;
+    
+    const command = `${railwayCmd} "node -e \\"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\\""`;
+    
+    console.log(`   Using environment: ${environment}`);
+    if (projectId) console.log(`   Project ID: ${projectId}`);
+    if (serviceId) console.log(`   Service ID: ${serviceId}`);
     
     const output = execSync(command, { 
       encoding: 'utf-8',

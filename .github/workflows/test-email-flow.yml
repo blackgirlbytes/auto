@@ -31,25 +31,14 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       
-      - name: Link Railway Project
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-        run: |
-          echo "🔗 Linking to Railway project..."
-          if [ -n "$RAILWAY_PROJECT_ID" ]; then
-            railway link $RAILWAY_PROJECT_ID
-            echo "✅ Successfully linked to Railway project"
-          else
-            echo "⚠️  RAILWAY_PROJECT_ID not set, skipping project link"
-            exit 1
-          fi
-      
       - name: Run full test flow
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
         run: |
           echo "🧪 Running test flow for Day ${{ github.event.inputs.day }}"
           echo "📧 Email will be sent ONLY to rizel@block.xyz"
