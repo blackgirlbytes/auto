@@ -31,24 +31,19 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       
-      - name: Authenticate Railway CLI
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          echo "🔐 Authenticating with Railway..."
-          railway login --browserless
-      
       - name: Link Railway Project
         env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
         run: |
+          echo "🔗 Linking to Railway project..."
           if [ -n "$RAILWAY_PROJECT_ID" ]; then
-            echo "🔗 Linking to Railway project..."
             railway link $RAILWAY_PROJECT_ID
+            echo "✅ Successfully linked to Railway project"
           else
             echo "⚠️  RAILWAY_PROJECT_ID not set, skipping project link"
+            exit 1
           fi
-        continue-on-error: true
       
       - name: Run full test flow
         env:
