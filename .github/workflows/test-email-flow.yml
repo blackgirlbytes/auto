@@ -1,0 +1,86 @@
+name: Test Email Flow (Send to rizel@block.xyz only)
+
+on:
+  # Manual trigger only - for testing
+  workflow_dispatch:
+    inputs:
+      day:
+        description: 'Challenge day number (1-17)'
+        required: true
+        default: '1'
+
+jobs:
+  test-email-flow:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      
+      - name: Run full test flow
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          echo "🧪 Running test flow for Day ${{ github.event.inputs.day }}"
+          echo "📧 Email will be sent ONLY to rizel@block.xyz"
+          echo ""
+          npx tsx scripts/test-full-flow.ts --day=${{ github.event.inputs.day }}
+      
+      - name: Commit email list updates (if any)
+        if: success()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if [[ -n $(git status -s data/email-list.json) ]]; then
+            git add data/email-list.json
+            git commit -m "Update email list from test flow (Day ${{ github.event.inputs.day }})"
+            git push
+            echo "✅ Email list updated and pushed"
+          else
+            echo "ℹ️  No changes to email list"
+          fi
+        continue-on-error: true
+      
+      - name: Create success summary
+        if: success()
+        run: |
+          echo "## ✅ Test Email Flow Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Day:** ${{ github.event.inputs.day }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Test Email Sent To:** rizel@block.xyz" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### What was tested:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Railway database query" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Email list update" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Challenge content fetch from GitHub" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Email generation and sending" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📬 **Check your inbox at rizel@block.xyz!**" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Create failure summary
+        if: failure()
+        run: |
+          echo "## ❌ Test Email Flow Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Day:** ${{ github.event.inputs.day }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check the logs above for error details." >> $GITHUB_STEP_SUMMARY

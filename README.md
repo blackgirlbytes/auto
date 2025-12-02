@@ -60,6 +60,23 @@ Configure these secrets in your GitHub repository settings:
 
 ## 📝 Scripts
 
+### 🧪 Test Full Flow (Recommended First!)
+
+Test the complete automation flow safely - sends email **ONLY to rizel@block.xyz**:
+
+```bash
+# Test Day 1 challenge (queries Railway, updates list, sends test email)
+npm run test-flow -- --day=1
+```
+
+**What it does:**
+1. Queries Railway for new signups
+2. Updates email-list.json
+3. Fetches challenge from GitHub
+4. Sends test email ONLY to rizel@block.xyz
+
+See [TEST_GUIDE.md](TEST_GUIDE.md) for detailed testing instructions.
+
 ### Query New Signups
 
 Fetch new signups from Railway database and update `email-list.json`:

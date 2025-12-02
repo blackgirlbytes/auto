@@ -8,7 +8,8 @@
     "send:day": "tsx scripts/send-challenge-email.ts --day",
     "send:dry-run": "tsx scripts/send-challenge-email.ts --dry-run",
     "query-signups": "tsx scripts/query-new-signups.ts",
-    "fetch-challenge": "tsx scripts/fetch-challenge.ts"
+    "fetch-challenge": "tsx scripts/fetch-challenge.ts",
+    "test-flow": "tsx scripts/test-full-flow.ts"
   },
   "keywords": ["email", "automation", "advent-of-ai"],
   "author": "",
