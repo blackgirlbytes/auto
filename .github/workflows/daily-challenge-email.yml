@@ -85,6 +85,7 @@ jobs:
           RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
         run: |
           echo "📡 Querying Railway for new signups..."
+          export RAILWAY_TOKEN="${RAILWAY_TOKEN}"
           npx tsx scripts/query-new-signups.ts --commit
         continue-on-error: true
       

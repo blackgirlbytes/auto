@@ -65,6 +65,9 @@ jobs:
         run: |
           echo "🧪 Testing Railway SSH connection..."
           
+          # Export RAILWAY_TOKEN so Railway CLI can use it
+          export RAILWAY_TOKEN="${RAILWAY_TOKEN}"
+          
           # Build the railway ssh command with all available flags
           RAILWAY_CMD="railway ssh"
           
@@ -79,6 +82,7 @@ jobs:
           RAILWAY_CMD="$RAILWAY_CMD --environment ${RAILWAY_ENVIRONMENT:-production}"
           
           echo "📡 Running: $RAILWAY_CMD \"echo 'Connection test successful'\""
+          echo "   (Token length: ${#RAILWAY_TOKEN} chars)"
           
           if $RAILWAY_CMD "echo 'Connection test successful'"; then
             echo "✅ Railway connection successful!"
