@@ -125,18 +125,19 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         continue-on-error: true
       
-      - name: Run full test flow
-        env:
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
-          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
-        run: |
-          echo "🧪 Running test flow for Day ${{ github.event.inputs.day }}"
-          echo "📧 Email will be sent ONLY to rizel@block.xyz"
-          echo ""
-          npx tsx scripts/test-full-flow.ts --day=${{ github.event.inputs.day }}
+      # Temporarily commented out to avoid wasting emails during debugging
+      # - name: Run full test flow
+      #   env:
+      #     SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+      #     FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+      #     RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      #     RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME || 'frosty-agent-forge' }}
+      #     RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT || 'production' }}
+      #   run: |
+      #     echo "🧪 Running test flow for Day ${{ github.event.inputs.day }}"
+      #     echo "📧 Email will be sent ONLY to rizel@block.xyz"
+      #     echo ""
+      #     npx tsx scripts/test-full-flow.ts --day=${{ github.event.inputs.day }}
       
       - name: Commit email list updates (if any)
         if: success()
