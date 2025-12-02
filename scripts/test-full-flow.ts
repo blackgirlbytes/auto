@@ -100,6 +100,12 @@ function queryRailwaySignups(): Signup[] {
     const signups = JSON.parse(jsonOutput);
     console.log(`✅ Fetched ${signups.length} total signups from Railway`);
     
+    // Debug: Show first and last few signups
+    if (signups.length > 0) {
+      console.log(`   First signup: ${signups[0].email} (ID: ${signups[0].id})`);
+      console.log(`   Last signup: ${signups[signups.length - 1].email} (ID: ${signups[signups.length - 1].id})`);
+    }
+    
     return signups;
   } catch (error: any) {
     console.error('❌ Failed to fetch from Railway:', error.message);
@@ -119,14 +125,21 @@ function updateEmailList(railwaySignups: Signup[]): { updated: boolean; newCount
     const existingSignups = JSON.parse(readFileSync(jsonPath, 'utf-8'));
     
     console.log(`   Current list: ${existingSignups.length} signups`);
+    if (existingSignups.length > 0) {
+      console.log(`   Last in list: ${existingSignups[existingSignups.length - 1].email} (ID: ${existingSignups[existingSignups.length - 1].id})`);
+    }
     
     if (railwaySignups.length === 0) {
       console.log('   No Railway data to merge');
       return { updated: false, newCount: 0, total: existingSignups.length };
     }
     
+    console.log(`   Railway has: ${railwaySignups.length} signups`);
+    
     // Find new signups
     const existingEmails = new Set(existingSignups.map((s: Signup) => s.email.toLowerCase()));
+    console.log(`   Checking ${railwaySignups.length} Railway signups against ${existingEmails.size} existing emails...`);
+    
     const newSignups: Signup[] = [];
     
     for (const signup of railwaySignups) {
