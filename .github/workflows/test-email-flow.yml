@@ -161,13 +161,10 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo ""
           
-          # Read the script and encode it to base64
-          QUERY_SCRIPT_B64=$(cat scripts/railway-query-db.js | grep -v '^#!' | base64 -w 0)
-          
-          # Execute on Railway and capture output
-          echo "📡 Executing query..."
+          # Try the simplest possible approach - inline Node.js code
+          echo "📡 Executing query with inline Node.js..."
           OUTPUT=$(railway ssh --service ${RAILWAY_SERVICE_NAME} --environment ${RAILWAY_ENVIRONMENT} -- \
-            bash -c "echo $QUERY_SCRIPT_B64 | base64 -d | node" 2>&1)
+            node -e "const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();" 2>&1)
           
           echo "📋 Full output (including stderr):"
           echo "$OUTPUT"
