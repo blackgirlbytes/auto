@@ -40,6 +40,9 @@ on:
 jobs:
   send-notifications:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow pushing commits
+      issues: write    # Allow creating issues on failure
     
     steps:
       - name: Checkout repository
