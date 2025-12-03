@@ -372,6 +372,12 @@
     "created_at": "2025-12-03 01:27:04"
   },
   {
+    "id": 22,
+    "email": "adventofai@whoami.pl",
+    "subscribed": 1,
+    "created_at": "2025-12-03 15:41:44"
+  },
+  {
     "email": "javandatrika@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 05:58:42",
