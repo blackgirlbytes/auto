@@ -444,6 +444,12 @@
     "created_at": "2025-12-03 02:59:35"
   },
   {
+    "id": 26,
+    "email": "liranvaknin@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 19:16:15"
+  },
+  {
     "email": "cliffordmapesa8@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 07:15:59",
@@ -456,6 +462,12 @@
     "created_at": "2025-12-03 03:08:11"
   },
   {
+    "id": 27,
+    "email": "vanessa.n.njoroge@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 19:55:06"
+  },
+  {
     "email": "pcarm92@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 07:24:01",
@@ -466,6 +478,12 @@
     "email": "dev@danielmigizi.com",
     "subscribed": 1,
     "created_at": "2025-12-03 03:16:03"
+  },
+  {
+    "id": 28,
+    "email": "gmaita@deloitte.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 20:40:30"
   },
   {
     "email": "vincent.moutoussamy@hornetsecurity.com",
