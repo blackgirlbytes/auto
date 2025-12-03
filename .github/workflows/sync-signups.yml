@@ -38,6 +38,11 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      
       - name: Sync signups from Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
