@@ -204,10 +204,22 @@
     "id": 19
   },
   {
+    "id": 19,
+    "email": "nico@niccolosanarico.com",
+    "subscribed": 1,
+    "created_at": "2025-12-02 23:21:27"
+  },
+  {
     "email": "renato@squareup.com",
     "subscribed": 1,
     "created_at": "2025-12-02 04:56:02",
     "id": 20
+  },
+  {
+    "id": 20,
+    "email": "lucumasoftware@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-02 23:43:23"
   },
   {
     "email": "charliesbot@gmail.com",
@@ -216,10 +228,22 @@
     "id": 21
   },
   {
+    "id": 21,
+    "email": "ray@raydeck.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 01:00:45"
+  },
+  {
     "email": "racore88.ai@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 05:54:46",
     "id": 22
+  },
+  {
+    "id": 22,
+    "email": "bergs_mummies_4r@icloud.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 01:27:04"
   },
   {
     "email": "javandatrika@gmail.com",
@@ -228,10 +252,22 @@
     "id": 23
   },
   {
+    "id": 23,
+    "email": "epegase@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 01:27:14"
+  },
+  {
     "email": "jgupta0700@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 06:10:27",
     "id": 24
+  },
+  {
+    "id": 24,
+    "email": "jvon@worldsfriend.xyz",
+    "subscribed": 1,
+    "created_at": "2025-12-03 02:28:13"
   },
   {
     "email": "hello@fafa.codes",
@@ -240,10 +276,22 @@
     "id": 25
   },
   {
+    "id": 25,
+    "email": "s.goose@dector.space",
+    "subscribed": 1,
+    "created_at": "2025-12-03 02:51:36"
+  },
+  {
     "email": "jerryanyumba@icloud.com",
     "subscribed": 1,
     "created_at": "2025-12-02 06:41:24",
     "id": 26
+  },
+  {
+    "id": 26,
+    "email": "ozzie.belazi@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 02:59:35"
   },
   {
     "email": "cliffordmapesa8@gmail.com",
@@ -252,16 +300,34 @@
     "id": 27
   },
   {
+    "id": 27,
+    "email": "will.rsbg@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 03:08:11"
+  },
+  {
     "email": "pcarm92@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 07:24:01",
     "id": 28
   },
   {
+    "id": 28,
+    "email": "dev@danielmigizi.com",
+    "subscribed": 1,
+    "created_at": "2025-12-03 03:16:03"
+  },
+  {
     "email": "vincent.moutoussamy@hornetsecurity.com",
     "subscribed": 1,
     "created_at": "2025-12-02 07:56:08",
     "id": 29
+  },
+  {
+    "id": 29,
+    "email": "simondemeyere@live.be",
+    "subscribed": 1,
+    "created_at": "2025-12-03 03:17:12"
   },
   {
     "email": "mxpenwarden@gmail.com",
