@@ -1,8 +1,10 @@
-# How to Query a SQLite Database on Railway with SSH
+# How to Query a SQLite Database on Railway from GitHub Actions
 
-You've deployed your app to Railway. It's using SQLite for storage. Now you need to query that database—maybe to debug an issue, export data, or sync it somewhere else.
+You've deployed your app to Railway. It's using SQLite for storage. Now you need to query that database from a GitHub Actions workflow—maybe to sync data, run backups, or automate some process.
 
-Here's how to do it using Railway's SSH feature.
+This should be simple. It's not.
+
+Here's what I learned after spending way too long on this.
 
 ## Why SSH?
 
@@ -10,24 +12,27 @@ Railway doesn't expose your SQLite database to the internet (and you don't want 
 
 SSH lets you run commands directly inside that container. You can query the database, inspect files, or run any command—without opening ports or exposing anything publicly.
 
-## Prerequisites
+## The Problem
 
-- [Railway CLI](https://docs.railway.app/develop/cli) installed (`npm install -g @railway/cli`)
-- A Railway project with a deployed service
-- A SQLite database in your deployed service (we'll use `better-sqlite3` in this example)
-
-## The Command
+This command works perfectly on my local machine:
 
 ```bash
-railway ssh --service your-service-name --environment production \
-  "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups').all(); console.log(JSON.stringify(all)); db.close();\""
+railway ssh "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups ORDER BY created_at DESC').all(); console.log(JSON.stringify(all)); db.close();\""
 ```
 
-Let's break this down.
+But in GitHub Actions? It fails. Authentication errors. Quote escaping issues. Silent failures with no output.
+
+The journey to make this work taught me a few things about Railway's CLI that aren't obvious from the docs.
+
+## Prerequisites
+
+- [Railway CLI](https://docs.railway.app/develop/cli) installed
+- A Railway project with a deployed service
+- A SQLite database in your deployed service (this example uses `better-sqlite3`)
 
 ## Step 1: Get Your Project Token
 
-You need a **project token**, not an account token. This scopes access to just one project.
+You need a **project token**, not an account token. This is important.
 
 1. Go to [railway.com/dashboard](https://railway.com/dashboard)
 2. Click on your project
@@ -37,98 +42,98 @@ You need a **project token**, not an account token. This scopes access to just o
 6. Click **Generate Token**
 7. Copy the token
 
-Set it as an environment variable:
+Add this as a secret in your GitHub repository: `RAILWAY_TOKEN`
 
-```bash
-export RAILWAY_TOKEN=your_project_token_here
-```
-
-> **Why project token instead of account token?** The project token is scoped to just this project. It's more secure for CI/CD and automation—if it leaks, the blast radius is limited to one project.
+> **Why project token instead of account token?** The project token is scoped to just this project. It's more secure for CI/CD—if it leaks, the blast radius is limited to one project.
 
 ## Step 2: Find Your Service Name
 
-You need your **service name**, not the service ID. You can find it in the Railway dashboard—it's the name shown on your service card.
+You need your **service name**, not the service ID. This matters (more on why later).
 
-Or if you're in a directory linked to your Railway project:
+Find it in the Railway dashboard—it's the name shown on your service card. Something like `my-app` or `frosty-agent-forge`.
 
-```bash
-railway status
-```
+## Step 3: The Working Command
 
-Look for something like:
-```
-Service: frosty-agent-forge
-```
-
-## Step 3: SSH and Query
-
-Now run the query:
+Here's the command pattern that works in GitHub Actions:
 
 ```bash
-railway ssh --service frosty-agent-forge --environment production \
-  "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups').all(); console.log(JSON.stringify(all)); db.close();\""
+railway ssh --service your-service-name --environment production \
+  "node -e \"const db = require('better-sqlite3')('./path/to/database.db'); const rows = db.prepare('SELECT * FROM your_table').all(); console.log(JSON.stringify(rows)); db.close();\""
 ```
 
-You'll get JSON output:
+The quote escaping is critical:
+- **Outer double quotes** wrap the entire command
+- **Escaped double quotes** (`\"`) wrap the JavaScript code
+- **Single quotes** for strings inside the JavaScript
 
-```json
-[
-  {"id": 1, "email": "user1@example.com", "created_at": "2025-12-01 10:00:00"},
-  {"id": 2, "email": "user2@example.com", "created_at": "2025-12-01 11:30:00"}
-]
+## Step 4: Put the Query in a Script
+
+Embedding complex queries directly in your workflow YAML gets messy. Instead, put the Railway SSH logic in a separate script.
+
+Create a file like `scripts/sync-database.ts`:
+
+```typescript
+import { execSync } from 'child_process';
+
+interface Record {
+  id: number;
+  email: string;
+  created_at: string;
+}
+
+function queryRailway(): Record[] {
+  const serviceName = process.env.RAILWAY_SERVICE_NAME || 'your-service-name';
+  const environment = process.env.RAILWAY_ENVIRONMENT || 'production';
+  const token = process.env.RAILWAY_TOKEN;
+
+  if (!token) {
+    console.error('RAILWAY_TOKEN not set');
+    process.exit(1);
+  }
+
+  // Build the command with proper escaping
+  const command = `railway ssh --service ${serviceName} --environment ${environment} "node -e \\"const db = require('better-sqlite3')('./data/database.db'); const rows = db.prepare('SELECT * FROM users').all(); console.log(JSON.stringify(rows)); db.close();\\""`;
+
+  const output = execSync(command, { encoding: 'utf-8' });
+
+  // Railway may include extra output, so find the JSON
+  const lines = output.trim().split('\n');
+  for (const line of lines) {
+    if (line.trim().startsWith('[')) {
+      return JSON.parse(line.trim());
+    }
+  }
+
+  throw new Error('Could not find JSON output from Railway');
+}
+
+// Run the query
+const records = queryRailway();
+console.log(`Fetched ${records.length} records`);
 ```
 
-## Understanding the Quote Escaping
+Then your workflow just calls the script:
 
-The trickiest part is getting the quotes right. Here's the pattern:
-
-```bash
-railway ssh --service SERVICE --environment ENV "node -e \"YOUR_JS_CODE\""
+```yaml
+- name: Sync from Railway
+  env:
+    RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+  run: npx tsx scripts/sync-database.ts
 ```
 
-- **Outer double quotes** wrap the entire command sent to the remote shell
-- **Escaped double quotes** (`\"`) wrap the JavaScript code for `node -e`
-- **Single quotes** inside the JavaScript for strings
+This keeps your workflow clean and makes the script easier to test locally.
 
-```bash
-"node -e \"const x = 'hello'; console.log(x);\""
-#^      ^                                      ^
-#|      |______ escaped for JS ________________|
-#|_____________ outer quotes for SSH __________|
-```
+## The GitHub Actions Workflow
 
-## Common Queries
-
-### Count records
-
-```bash
-railway ssh --service frosty-agent-forge --environment production \
-  "node -e \"const db = require('better-sqlite3')('./data/signups.db'); console.log(db.prepare('SELECT COUNT(*) as count FROM signups').get().count); db.close();\""
-```
-
-### Get recent entries
-
-```bash
-railway ssh --service frosty-agent-forge --environment production \
-  "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const recent = db.prepare('SELECT * FROM signups ORDER BY created_at DESC LIMIT 5').all(); console.log(JSON.stringify(recent, null, 2)); db.close();\""
-```
-
-### Search for a specific record
-
-```bash
-railway ssh --service frosty-agent-forge --environment production \
-  "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const user = db.prepare('SELECT * FROM signups WHERE email = ?').get('user@example.com'); console.log(JSON.stringify(user)); db.close();\""
-```
-
-## Using This in GitHub Actions
-
-Here's a workflow that queries Railway and saves the results:
+Here's a complete workflow:
 
 ```yaml
 name: Sync Database
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
 
 jobs:
   sync:
@@ -136,78 +141,83 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm ci
+      
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       
-      - name: Query Railway Database
+      - name: Sync from Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          OUTPUT=$(railway ssh --service frosty-agent-forge --environment production \
-            "node -e \"const db = require('better-sqlite3')('./data/signups.db'); const all = db.prepare('SELECT * FROM signups').all(); console.log(JSON.stringify(all)); db.close();\"")
-          
-          echo "$OUTPUT" > data/backup.json
-          echo "Fetched $(echo "$OUTPUT" | jq length) records"
+          RAILWAY_SERVICE_NAME: your-service-name
+          RAILWAY_ENVIRONMENT: production
+        run: npx tsx scripts/sync-database.ts
 ```
 
-## Gotcha: Use Project Token, Not Account Token
+## Gotcha #1: Use Project Token, Not Account Token
 
 Railway has two types of tokens:
 
 | Token Type | Where to Find | Scope |
 |------------|---------------|-------|
-| Account Token | railway.com/account/tokens | All projects in your account |
-| Project Token | railway.com/project/[id]/settings → Tokens | Just one project |
+| Account Token | railway.com/account/tokens | All projects |
+| Project Token | railway.com/project/[id]/settings → Tokens | One project |
 
-**Use the project token.** It's more secure and works better with the CLI for SSH operations.
+**Use the project token.** It works more reliably with the CLI for SSH operations.
 
-To get your project token:
-1. `https://railway.com/project/[your-project-id]/settings`
-2. Scroll to Tokens
-3. Generate and copy
+## Gotcha #2: Use Service Name, Not Service ID
 
-## Gotcha: Don't Use `--project` or Service IDs
-
-This is the mistake that will waste your time:
+This one wasted hours of my time:
 
 ```bash
 # ❌ BROKEN - Railway ignores your token!
-railway ssh --project abc123 --service def456 --environment production "..."
+railway ssh --project abc123 --service def456 "..."
 
-# ✅ WORKS - Use service NAME instead
-railway ssh --service frosty-agent-forge --environment production "..."
+# ✅ WORKS
+railway ssh --service my-service-name --environment production "..."
 ```
 
-When you pass `--project` or use service IDs, Railway CLI switches to a mode that ignores the `RAILWAY_TOKEN` environment variable. Use the **service name** instead, and Railway will infer the project from your token.
+When you pass `--project` or use service IDs, Railway CLI switches to a mode that ignores the `RAILWAY_TOKEN` environment variable. It expects interactive login instead.
 
-## Gotcha: Find Your Database Path First
+Use the **service name** and let Railway infer the project from your token.
 
-Not sure where your SQLite database is? SSH in and look around:
+## Gotcha #3: Find Your Database Path
+
+Not sure where your SQLite file is? SSH in and explore:
 
 ```bash
-# Check current directory
-railway ssh --service frosty-agent-forge --environment production "pwd"
-
-# List files
-railway ssh --service frosty-agent-forge --environment production "ls -la"
-
-# Find the database
-railway ssh --service frosty-agent-forge --environment production "find . -name '*.db'"
+railway ssh --service your-service --environment production "pwd"
+railway ssh --service your-service --environment production "find . -name '*.db'"
 ```
 
-## Gotcha: Make Sure Your Dependencies Are Installed
+## Gotcha #4: Parse the Output Carefully
 
-The `better-sqlite3` package needs to be installed in your deployed service. If you get a "module not found" error, check your `package.json`.
+Railway SSH might include extra text before your JSON output. Don't assume the entire output is valid JSON. Look for the line that starts with `[` or `{`:
+
+```typescript
+const lines = output.trim().split('\n');
+for (const line of lines) {
+  if (line.trim().startsWith('[')) {
+    return JSON.parse(line.trim());
+  }
+}
+```
 
 ## Wrapping Up
 
 The key points:
 
-1. **Why SSH?** SQLite isn't exposed to the internet—SSH lets you run commands inside the container
-2. **Use a project token** from `railway.com/project/[id]/settings` → Tokens
-3. Use `railway ssh --service SERVICE_NAME --environment production "command"`
-4. Use **service name**, not service ID
-5. Don't use `--project` flag (it breaks token auth)
-6. Get the quote escaping right: outer doubles, escaped inner doubles, single quotes for JS strings
+1. **Use SSH** because SQLite isn't exposed to the internet
+2. **Use a project token** from `railway.com/project/[id]/settings`
+3. **Use service name**, not service ID or `--project` flag
+4. **Put the query in a script** to keep your workflow clean
+5. **Get the quote escaping right**: outer doubles, escaped inner doubles, single quotes for JS strings
+6. **Parse the output carefully**—look for the JSON in the response
 
-Once you have this working, you can query your production database, export data, debug issues, or build sync workflows—all without exposing your database to the internet.
+What works locally doesn't always work in CI. The Railway CLI behaves differently depending on how you authenticate and which flags you use. Hopefully this saves you the debugging time I spent figuring it out.
