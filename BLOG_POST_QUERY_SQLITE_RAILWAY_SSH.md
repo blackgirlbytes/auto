@@ -4,6 +4,12 @@ You've deployed your app to Railway. It's using SQLite for storage. Now you need
 
 Here's how to do it using Railway's SSH feature.
 
+## Why SSH?
+
+Railway doesn't expose your SQLite database to the internet (and you don't want it to). There's no database URL or connection string like you'd get with Postgres or MySQL. Your SQLite file lives on disk inside your deployed container.
+
+SSH lets you run commands directly inside that container. You can query the database, inspect files, or run any command—without opening ports or exposing anything publicly.
+
 ## Prerequisites
 
 - [Railway CLI](https://docs.railway.app/develop/cli) installed (`npm install -g @railway/cli`)
@@ -19,23 +25,31 @@ railway ssh --service your-service-name --environment production \
 
 Let's break this down.
 
-## Step 1: Authenticate with Railway
+## Step 1: Get Your Project Token
 
-First, make sure you're logged in:
+You need a **project token**, not an account token. This scopes access to just one project.
+
+1. Go to [railway.com/dashboard](https://railway.com/dashboard)
+2. Click on your project
+3. You'll be at `https://railway.com/project/[project-id]`
+4. Add `/settings` to the URL: `https://railway.com/project/[project-id]/settings`
+5. Scroll down to **Tokens**
+6. Click **Generate Token**
+7. Copy the token
+
+Set it as an environment variable:
 
 ```bash
-railway login
+export RAILWAY_TOKEN=your_project_token_here
 ```
 
-Or if you're using a token (like in CI/CD):
-
-```bash
-export RAILWAY_TOKEN=your_token_here
-```
+> **Why project token instead of account token?** The project token is scoped to just this project. It's more secure for CI/CD and automation—if it leaks, the blast radius is limited to one project.
 
 ## Step 2: Find Your Service Name
 
-You need your **service name**, not the service ID. You can find it in the Railway dashboard or by running:
+You need your **service name**, not the service ID. You can find it in the Railway dashboard—it's the name shown on your service card.
+
+Or if you're in a directory linked to your Railway project:
 
 ```bash
 railway status
@@ -136,6 +150,22 @@ jobs:
           echo "Fetched $(echo "$OUTPUT" | jq length) records"
 ```
 
+## Gotcha: Use Project Token, Not Account Token
+
+Railway has two types of tokens:
+
+| Token Type | Where to Find | Scope |
+|------------|---------------|-------|
+| Account Token | railway.com/account/tokens | All projects in your account |
+| Project Token | railway.com/project/[id]/settings → Tokens | Just one project |
+
+**Use the project token.** It's more secure and works better with the CLI for SSH operations.
+
+To get your project token:
+1. `https://railway.com/project/[your-project-id]/settings`
+2. Scroll to Tokens
+3. Generate and copy
+
 ## Gotcha: Don't Use `--project` or Service IDs
 
 This is the mistake that will waste your time:
@@ -173,9 +203,11 @@ The `better-sqlite3` package needs to be installed in your deployed service. If 
 
 The key points:
 
-1. Use `railway ssh --service SERVICE_NAME --environment production "command"`
-2. Use **service name**, not service ID
-3. Don't use `--project` flag (it breaks token auth)
-4. Get the quote escaping right: outer doubles, escaped inner doubles, single quotes for JS strings
+1. **Why SSH?** SQLite isn't exposed to the internet—SSH lets you run commands inside the container
+2. **Use a project token** from `railway.com/project/[id]/settings` → Tokens
+3. Use `railway ssh --service SERVICE_NAME --environment production "command"`
+4. Use **service name**, not service ID
+5. Don't use `--project` flag (it breaks token auth)
+6. Get the quote escaping right: outer doubles, escaped inner doubles, single quotes for JS strings
 
 Once you have this working, you can query your production database, export data, debug issues, or build sync workflows—all without exposing your database to the internet.
