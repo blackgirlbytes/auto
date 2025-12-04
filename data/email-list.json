@@ -612,10 +612,22 @@
     "id": 39
   },
   {
+    "id": 39,
+    "email": "joshua.cigna@outlook.com",
+    "subscribed": 1,
+    "created_at": "2025-12-04 13:05:00"
+  },
+  {
     "email": "filip@airspace-intelligence.com",
     "subscribed": 1,
     "created_at": "2025-12-02 10:07:18",
     "id": 40
+  },
+  {
+    "id": 40,
+    "email": "ebube17@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-04 14:13:41"
   },
   {
     "email": "shaun.wallace@signal-ai.com",
