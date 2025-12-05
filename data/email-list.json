@@ -240,6 +240,12 @@
     "created_at": "2025-12-03 11:46:02"
   },
   {
+    "id": 11,
+    "email": "wheres67@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-05 12:11:15"
+  },
+  {
     "email": "scheung@medium.com",
     "subscribed": 1,
     "created_at": "2025-12-01 23:55:29",
@@ -256,6 +262,12 @@
     "email": "arthursrodrigues@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-03 11:56:47"
+  },
+  {
+    "id": 12,
+    "email": "jon@workplacelabs.io",
+    "subscribed": 1,
+    "created_at": "2025-12-05 14:16:39"
   },
   {
     "email": "pier-andre.maynard@autodesk.com",
