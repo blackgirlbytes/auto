@@ -276,6 +276,12 @@
     "created_at": "2025-12-05 10:09:33"
   },
   {
+    "id": 10,
+    "email": "nkarnwal07@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-06 17:01:34"
+  },
+  {
     "email": "lovemayax10@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-01 23:25:12",
@@ -298,6 +304,12 @@
     "email": "wheres67@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-05 12:11:15"
+  },
+  {
+    "id": 11,
+    "email": "goose@ynniv.com",
+    "subscribed": 1,
+    "created_at": "2025-12-06 17:01:35"
   },
   {
     "email": "scheung@medium.com",
