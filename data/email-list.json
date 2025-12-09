@@ -960,6 +960,12 @@
     "created_at": "2025-12-04 16:19:46"
   },
   {
+    "id": 41,
+    "email": "dursun.asli@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 08:17:11"
+  },
+  {
     "email": "dennis.dyall+maillists+goose@yubico.com",
     "subscribed": 1,
     "created_at": "2025-12-02 10:42:02",
@@ -970,6 +976,12 @@
     "email": "yashppawar@proton.me",
     "subscribed": 1,
     "created_at": "2025-12-04 17:43:45"
+  },
+  {
+    "id": 42,
+    "email": "alptugidin@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 08:21:14"
   },
   {
     "email": "ivanjerrickkoh@gmail.com",
@@ -984,6 +996,12 @@
     "created_at": "2025-12-04 17:49:22"
   },
   {
+    "id": 43,
+    "email": "info@geceugurerol.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 08:22:26"
+  },
+  {
     "email": "venkat.rk4@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 10:54:16",
@@ -996,6 +1014,12 @@
     "created_at": "2025-12-04 18:25:03"
   },
   {
+    "id": 44,
+    "email": "cihankirpik@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 08:43:21"
+  },
+  {
     "email": "tekla0910@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 11:14:02",
@@ -1006,6 +1030,12 @@
     "email": "david@flow.club",
     "subscribed": 1,
     "created_at": "2025-12-04 18:39:48"
+  },
+  {
+    "id": 45,
+    "email": "batuberque@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 08:51:05"
   },
   {
     "email": "kevintuei89@gmail.com",
