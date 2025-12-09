@@ -2052,10 +2052,22 @@
     "id": 136
   },
   {
+    "id": 136,
+    "email": "yilmazkursad@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 15:09:11"
+  },
+  {
     "email": "zach.charlop.powers@gmail.com",
     "subscribed": 1,
     "created_at": "2025-11-30 22:36:19",
     "id": 137
+  },
+  {
+    "id": 137,
+    "email": "seymaaysu_alp@hotmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 15:10:51"
   },
   {
     "email": "jordan@addwonder.com",
@@ -2064,16 +2076,34 @@
     "id": 138
   },
   {
+    "id": 138,
+    "email": "burakkzlkzl@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 15:14:39"
+  },
+  {
     "email": "adventofai.dev.r@bell.as",
     "subscribed": 1,
     "created_at": "2025-11-30 22:41:36",
     "id": 139
   },
   {
+    "id": 139,
+    "email": "erdikilickaya@hotmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 15:16:40"
+  },
+  {
     "email": "kbates4@gmail.com",
     "subscribed": 1,
     "created_at": "2025-11-30 22:50:28",
     "id": 140
+  },
+  {
+    "id": 140,
+    "email": "ssepil@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 15:17:56"
   },
   {
     "email": "joelgrus@gmail.com",
