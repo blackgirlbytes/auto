@@ -1050,6 +1050,12 @@
     "created_at": "2025-12-04 19:06:34"
   },
   {
+    "id": 46,
+    "email": "unaloktem@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 09:21:16"
+  },
+  {
     "email": "getlelaw@icloud.com",
     "subscribed": 1,
     "created_at": "2025-12-02 11:48:19",
@@ -1060,6 +1066,12 @@
     "email": "khodeirco@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-04 19:49:33"
+  },
+  {
+    "id": 47,
+    "email": "eray.py@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 10:18:03"
   },
   {
     "email": "bntechnical@outlook.com",
@@ -1074,10 +1086,22 @@
     "created_at": "2025-12-04 19:49:49"
   },
   {
+    "id": 48,
+    "email": "shoppieref@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 10:38:04"
+  },
+  {
     "email": "johannes@broetzens.de",
     "subscribed": 1,
     "created_at": "2025-12-02 12:20:02",
     "id": 49
+  },
+  {
+    "id": 49,
+    "email": "savasturkoglu.dev@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:00:56"
   },
   {
     "email": "devvratshukla@gmail.com",
@@ -1086,10 +1110,22 @@
     "id": 50
   },
   {
+    "id": 50,
+    "email": "tugrul.karakaya@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:01:15"
+  },
+  {
     "email": "kshitij11hi@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 12:59:28",
     "id": 51
+  },
+  {
+    "id": 51,
+    "email": "sms.pve@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:06:44"
   },
   {
     "email": "abdulwajidck@gmail.com",
@@ -1098,10 +1134,22 @@
     "id": 52
   },
   {
+    "id": 52,
+    "email": "a.emreusta061@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:19:24"
+  },
+  {
     "email": "wajid@stakque.com",
     "subscribed": 1,
     "created_at": "2025-12-02 13:04:51",
     "id": 53
+  },
+  {
+    "id": 53,
+    "email": "biyonik-ulnar.6s@icloud.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:21:33"
   },
   {
     "email": "pmonterubio@squareup.com",
@@ -1110,10 +1158,22 @@
     "id": 54
   },
   {
+    "id": 54,
+    "email": "sadikbarisyilmaz@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:25:37"
+  },
+  {
     "email": "daniel.larsson@tunstall.com",
     "subscribed": 1,
     "created_at": "2025-12-02 13:33:44",
     "id": 55
+  },
+  {
+    "id": 55,
+    "email": "ybekdemir@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:27:29"
   },
   {
     "email": "tmatlage@squareup.com",
@@ -1122,10 +1182,22 @@
     "id": 56
   },
   {
+    "id": 56,
+    "email": "doruktarhan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:31:57"
+  },
+  {
     "email": "me@waptik.xyz",
     "subscribed": 1,
     "created_at": "2025-12-02 14:25:56",
     "id": 57
+  },
+  {
+    "id": 57,
+    "email": "alipusat@hotmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:35:11"
   },
   {
     "email": "advent-of-ai.curdle296@passmail.net",
@@ -1134,10 +1206,22 @@
     "id": 58
   },
   {
+    "id": 58,
+    "email": "ssensoy@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:39:42"
+  },
+  {
     "email": "thimes@squareup.com",
     "subscribed": 1,
     "created_at": "2025-12-02 14:38:25",
     "id": 59
+  },
+  {
+    "id": 59,
+    "email": "md3likan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:39:43"
   },
   {
     "email": "kellyo@squareup.com",
@@ -1146,10 +1230,22 @@
     "id": 60
   },
   {
+    "id": 60,
+    "email": "mustafatasci89@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:42:41"
+  },
+  {
     "email": "saudizoe@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 15:25:09",
     "id": 61
+  },
+  {
+    "id": 61,
+    "email": "kayaxdesign@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:44:13"
   },
   {
     "email": "abdelrahman.s@gmail.com",
@@ -1158,10 +1254,22 @@
     "id": 62
   },
   {
+    "id": 62,
+    "email": "atesbagcabasi@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:48:31"
+  },
+  {
     "email": "ab.raey@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 15:34:00",
     "id": 63
+  },
+  {
+    "id": 63,
+    "email": "vatansever.ugur@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:53:09"
   },
   {
     "email": "dannygarciadev@gmail.com",
@@ -1170,10 +1278,22 @@
     "id": 64
   },
   {
+    "id": 64,
+    "email": "ugur@toprak.run",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:54:35"
+  },
+  {
     "email": "anudhyandatta2021@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 15:50:09",
     "id": 65
+  },
+  {
+    "id": 65,
+    "email": "bdemic3215@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:55:29"
   },
   {
     "email": "brett.markowitz@gmail.com",
@@ -1182,10 +1302,22 @@
     "id": 66
   },
   {
+    "id": 66,
+    "email": "omerd0292@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 11:58:16"
+  },
+  {
     "email": "lauriesreynolds@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 16:04:12",
     "id": 67
+  },
+  {
+    "id": 67,
+    "email": "tuncayasma@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 12:02:21"
   },
   {
     "email": "email@juliomedina.com",
@@ -1194,10 +1326,22 @@
     "id": 68
   },
   {
+    "id": 68,
+    "email": "hello@halilkilicarslan.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 12:03:44"
+  },
+  {
     "email": "wthackeray@squareup.com",
     "subscribed": 1,
     "created_at": "2025-12-02 16:11:31",
     "id": 69
+  },
+  {
+    "id": 69,
+    "email": "koskerufuk54@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 12:06:26"
   },
   {
     "email": "tchakraborty@block.xyz",
@@ -1206,10 +1350,22 @@
     "id": 70
   },
   {
+    "id": 70,
+    "email": "kadiratsiz01@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 12:08:58"
+  },
+  {
     "email": "btheriault@block.xyz",
     "subscribed": 1,
     "created_at": "2025-12-02 17:06:20",
     "id": 71
+  },
+  {
+    "id": 71,
+    "email": "kozanceylan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-09 12:09:14"
   },
   {
     "email": "guesswhover@gmail.com",
