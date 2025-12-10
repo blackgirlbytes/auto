@@ -2178,16 +2178,34 @@
     "created_at": "2025-12-09 13:06:29"
   },
   {
+    "id": 92,
+    "email": "envererman7@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-10 14:48:26"
+  },
+  {
     "id": 93,
     "email": "info@tugobo.com",
     "subscribed": 1,
     "created_at": "2025-12-09 13:08:53"
   },
   {
+    "id": 93,
+    "email": "christophe.sauthier@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-10 14:58:20"
+  },
+  {
     "id": 94,
     "email": "ozmenhasandeu@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-09 13:11:09"
+  },
+  {
+    "id": 94,
+    "email": "nisanci.goksu@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-10 15:07:10"
   },
   {
     "id": 95,
