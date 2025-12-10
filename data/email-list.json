@@ -2226,10 +2226,22 @@
     "created_at": "2025-12-09 13:12:22"
   },
   {
+    "id": 96,
+    "email": "tritonsan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-10 15:44:33"
+  },
+  {
     "id": 97,
     "email": "eeekrem.duman@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-09 13:13:35"
+  },
+  {
+    "id": 97,
+    "email": "namitasingh485@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-10 15:47:30"
   },
   {
     "id": 98,
