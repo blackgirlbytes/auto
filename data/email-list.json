@@ -3312,6 +3312,12 @@
     "created_at": "2025-12-09 17:02:29"
   },
   {
+    "id": 158,
+    "email": "mertcikan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-11 10:09:24"
+  },
+  {
     "email": "bradlry.chandra@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-01 00:59:27",
@@ -3322,6 +3328,12 @@
     "email": "tncy.alpsoy@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-09 17:04:33"
+  },
+  {
+    "id": 159,
+    "email": "saurabh@datafirstmarketer.com",
+    "subscribed": 1,
+    "created_at": "2025-12-11 10:39:34"
   },
   {
     "email": "saiadithyaa2306@gmail.com",
@@ -3336,6 +3348,12 @@
     "created_at": "2025-12-09 17:04:47"
   },
   {
+    "id": 160,
+    "email": "jonatan.ruohomaki@kleer.se",
+    "subscribed": 1,
+    "created_at": "2025-12-11 11:15:58"
+  },
+  {
     "email": "cbgrasshopper@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-01 01:16:45",
@@ -3348,6 +3366,12 @@
     "created_at": "2025-12-09 17:11:47"
   },
   {
+    "id": 161,
+    "email": "jonatan.asketorp@proton.me",
+    "subscribed": 1,
+    "created_at": "2025-12-11 11:43:52"
+  },
+  {
     "email": "liuwen@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-01 02:02:39",
@@ -3358,6 +3382,12 @@
     "email": "atdemiralp@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-09 17:15:02"
+  },
+  {
+    "id": 162,
+    "email": "bart.gerard+aoa@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-11 11:48:23"
   },
   {
     "email": "jfeala@gmail.com",
