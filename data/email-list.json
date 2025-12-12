@@ -780,6 +780,12 @@
     "created_at": "2025-12-10 01:27:30"
   },
   {
+    "id": 18,
+    "email": "jcneto25@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-12 12:37:51"
+  },
+  {
     "email": "rchatterjee@chanr.org",
     "subscribed": 1,
     "created_at": "2025-12-02 04:26:03",
@@ -808,6 +814,12 @@
     "email": "sebastian@maniak.io",
     "subscribed": 1,
     "created_at": "2025-12-10 01:31:33"
+  },
+  {
+    "id": 19,
+    "email": "galtiberiu@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-12 14:06:49"
   },
   {
     "email": "renato@squareup.com",
