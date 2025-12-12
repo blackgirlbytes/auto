@@ -48,6 +48,12 @@
     "created_at": "2025-12-11 21:22:56"
   },
   {
+    "id": 1,
+    "email": "jlee@linuxfoundation.org",
+    "subscribed": 1,
+    "created_at": "2025-12-12 17:07:13"
+  },
+  {
     "email": "abhijith.srivatsav@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-01 21:12:06",
@@ -96,6 +102,12 @@
     "created_at": "2025-12-11 21:23:14"
   },
   {
+    "id": 2,
+    "email": "wkernan@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-12 17:16:29"
+  },
+  {
     "email": "leon.breukelman@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-01 21:20:07",
@@ -142,6 +154,12 @@
     "email": "manjug@dasintel.io",
     "subscribed": 1,
     "created_at": "2025-12-11 22:14:02"
+  },
+  {
+    "id": 3,
+    "email": "saket@gametheory.in",
+    "subscribed": 1,
+    "created_at": "2025-12-12 17:36:21"
   },
   {
     "email": "garrett.galow@gmail.com",
@@ -196,6 +214,12 @@
     "email": "adventofai@anatomind.com",
     "subscribed": 1,
     "created_at": "2025-12-11 23:38:23"
+  },
+  {
+    "id": 4,
+    "email": "srgejji@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-12 17:36:28"
   },
   {
     "email": "colino.craig@gmail.com",
