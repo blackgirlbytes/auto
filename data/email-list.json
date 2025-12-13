@@ -762,6 +762,12 @@
     "created_at": "2025-12-12 07:59:40"
   },
   {
+    "id": 15,
+    "email": "bahadirgurceer@gmail.com",
+    "subscribed": 1,
+    "created_at": "2025-12-13 13:04:48"
+  },
+  {
     "email": "sureshggg@gmail.com",
     "subscribed": 1,
     "created_at": "2025-12-02 03:43:46",
